@@ -5,12 +5,11 @@ import AppTheme from "./AppTheme";
 import Header from "./components/Header";
 import Home from "./pages/home";
 import "./style.css";
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={AppTheme}>
-      <Header />
       <Home />
     </ThemeProvider>
   </React.StrictMode>,

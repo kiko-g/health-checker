@@ -1,41 +1,21 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-export const fontFamily = ["\"Rubik\"", "Roboto", "Arial", "sans-serif"];
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { blue, blueGrey } from "@mui/material/colors";
+export const fontFamily = ['"Rubik"', "Roboto", "Arial", "sans-serif"];
 
-const theme = responsiveFontSizes(createTheme({
-  palette: {
-    primary: {
-      main: "#DC4F47",
+const theme = responsiveFontSizes(
+  createTheme({
+    palette: {
+      first: "#7A9CC6", //cerulean frost blue
+      second: "#9FBBCC", //pale cerulean blue
+      third: "#B3D2B2", //turquoise green
+      fourth: "#BDE4A7", //granny smith apple green
+      fifth: "#FFFD98", //canary yellow
     },
-    secondary: {
-      main: "#4F1315",
-    },
-  },
-  status: {
-    danger: "orange",
-  },
-  typography: {
-    fontFamily: fontFamily.join(","),
-    h1: {
+    typography: {
       fontFamily: fontFamily.join(","),
     },
-    h2: {
-      fontFamily: fontFamily.join(","),
-    },
-    h3: {
-      fontFamily: fontFamily.join(","),
-      fontWeight: 700,
-    },
-    h4: {
-      fontFamily: fontFamily.join(","),
-    },
-    h5: {
-      fontFamily: fontFamily.join(","),
-    },
-    h6: {
-      fontFamily: fontFamily.join(","),
-    },
-  },
-}));
+  })
+);
 
 // Add custom palette variants
 theme.palette = {
