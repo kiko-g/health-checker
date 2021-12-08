@@ -1,55 +1,73 @@
-import React from "react";
-import { Container, Grid } from "@mui/material";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { makeStyles } from "@mui/styles";
-import { LocalHospitalRounded, VaccinesRounded, MonitorHeartRounded, Lightbulb } from "@mui/icons-material";
+import {
+  GlobeIcon,
+  HeartIcon,
+  LightBulbIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/outline"
 
-const useStyles = makeStyles((theme) => ({
-  h1: {
-    color: `${theme.palette.first}`,
-    textAlign: "left"
+const features = [
+  {
+    name: "Globe",
+    description: "Globe mock text. ",
+    icon: GlobeIcon,
   },
-  hero: {
+  {
+    name: "Heart",
+    description: "Heart mock text. ",
+    icon: HeartIcon,
   },
-  grid: {
-    textAlign: "right",
-    padding: "0 5em"
+  {
+    name: "Idea",
+    description: "Idea mock text. ",
+    icon: LightBulbIcon,
   },
-  textBox: {
-    wordBreak: "wrap",
-    textAlign: "left",
-  }
-}));
-
-const info = [
-  { icon: LocalHospitalRounded, text: "dddddddd" },
-  { icon: VaccinesRounded, text: "bbbbbb" },
-  { icon: MonitorHeartRounded, text: "bbbbbb" },
-  { icon: Lightbulb, text: "bbbbbb" },
+  {
+    name: "Information",
+    description: "Information mock text. ",
+    icon: InformationCircleIcon,
+  },
 ]
 
-export default function Hero() {
-  const classes = useStyles();
+export default function Hero(props) {
+  const propClassName = props.propClassName || ""
 
   return (
-    <div className={classes.hero}>
-      <h1 className={classes.h1}>HealthChecker</h1>
-      <Grid className={classes.grid} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        {info.map((item, index) => (
-          <Grid item xs={6}>
-            <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={3}>
-                <item.icon />
-              </Grid>
-              <Grid item xs={9} className={classes.textBox}>
-                {item.text}
-              </Grid>
-            </Grid>
-          </Grid>
-        ))}
-      </Grid>
+    <div className={`${propClassName} overflow-hidden mx-auto`}>
+      <div className="lg:text-center">
+        <h2 className="text-xl text-bluegray-600 font-semibold tracking-wide uppercase">
+          Health Checker
+        </h2>
+        <h3 className="text-2xl text-coolgray-700 leading-8 font-extrabold tracking-tight">
+          A better way to consult health information
+        </h3>
+        <p className="max-w-2xl text-md text-gray-500 lg:mx-auto">
+          Quickly learn about any disease and its context and surroundings
+        </p>
+      </div>
+
+      <div className="mt-10">
+        <dl className="grid md:grid-cols-2 gap-8">
+          {features.map((feature) => (
+            <div key={feature.name} className="relative">
+              <dt>
+                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                  <feature.icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+                  {feature.name}
+                </p>
+              </dt>
+              <dd className="mt-1 ml-16 text-sm text-gray-500">
+                {feature.description}
+                {feature.description}
+                {feature.description}
+                {feature.description}
+                {feature.description}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
-  );
+  )
 }
