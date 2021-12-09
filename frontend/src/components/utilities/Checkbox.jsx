@@ -6,14 +6,14 @@ export default function Checkbox(props) {
   const handleClick = () => setChecked(!checked)
 
   return (
-    <label class="inline-flex items-center">
+    <label className="inline-flex items-center">
       <input
         type="checkbox"
-        class={`form-checkbox duration-100 focus:ring-blue-200 border-coolgray-300 border-2 rounded-sm p-2 text-${props.color}`}
+        className={`form-checkbox duration-100 focus:ring-blue-200 border-coolgray-300 border-2 rounded-sm p-2 text-${props.color}`}
         checked={checked}
-        onClick={handleClick}
+        onChange={handleClick}
       />
-      <span class="ml-2">{props.label}</span>
+      <span className="ml-2">{props.label}</span>
     </label>
   )
 }
