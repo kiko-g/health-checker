@@ -38,7 +38,9 @@ module.exports = {
         xxs: "0.6rem",
       },
       width: {
-        "124": "32rem"
+        "124": "32rem",
+        half: "50wh",
+        screen: "100vw",
       },
       minWidth: {
         0: "0",
@@ -50,7 +52,8 @@ module.exports = {
         "3/4": "75%",
         "4/5": "80%",
         full: "100%",
-        screen: "100vh",
+        half: "50vw",
+        screen: "100vw",
       },
       maxWidth: {
         0: "0",
@@ -62,7 +65,8 @@ module.exports = {
         "3/4": "75%",
         "4/5": "80%",
         full: "100%",
-        screen: "100wh",
+        half: "50vw",
+        screen: "100vw",
       },
       minHeight: {
         0: "0",
@@ -94,9 +98,6 @@ module.exports = {
         "4xl": "2rem",
         "5xl": "3rem",
         "6xl": "4rem",
-      },
-      backgroundImage: {
-        'hero-bg': "url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80')",
       },
       fontFamily: {
         inter: ["Inter", ...defaultTheme.fontFamily.sans],

@@ -6,6 +6,12 @@ const dbpediaBaseUrl = "https://live.dbpedia.org";
 const bioportalBaseUrl = "http://sparql.bioontology.org"
 const bioportalApiKey = "7f190679-605d-41f2-89de-572af1f28205" // deveria estar num .env
 
+router.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+    res.header("Access-Control-Allow-Headers", "*");
+    next();
+});
+
 router.get('/dbpedia', async (req, res) => {
     var query_string = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
 

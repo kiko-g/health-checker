@@ -4,6 +4,8 @@ import {
   LightBulbIcon,
   InformationCircleIcon,
 } from "@heroicons/react/outline"
+import PropTypes from "prop-types"
+import "./css/hero.css"
 
 const features = [
   {
@@ -29,18 +31,17 @@ const features = [
 ]
 
 export default function Hero(props) {
-  const propClassName = props.propClassName || ""
-
   return (
-    <div className={`${propClassName} overflow-hidden mx-auto`}>
+    <div className={`flex flex-col items-center justify-center ${props.class}`}>
+      <div className="hero-animated absolute inset-0 max-w-full xl:max-w-half min-h-screen"></div>
       <div className="lg:text-center">
-        <h2 className="text-xl text-bluegray-600 font-semibold tracking-wide uppercase">
+        <h2 className="text-xl text-coolgray-700 font-semibold tracking-wide uppercase">
           Health Checker
         </h2>
-        <h3 className="text-2xl text-coolgray-700 leading-8 font-extrabold tracking-tight">
+        <h3 className="text-2xl text-coolgray-800 leading-8 font-extrabold tracking-tight">
           A better way to consult health information
         </h3>
-        <p className="max-w-2xl text-md text-gray-500 lg:mx-auto">
+        <p className="max-w-2xl text-md text-gray-600 lg:mx-auto">
           Quickly learn about any disease and its context and surroundings
         </p>
       </div>
@@ -53,11 +54,11 @@ export default function Hero(props) {
                 <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
                   <feature.icon className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+                <p className="ml-16 text-lg leading-6 font-medium text-coolgray-800">
                   {feature.name}
                 </p>
               </dt>
-              <dd className="mt-1 ml-16 text-sm text-gray-500">
+              <dd className="mt-1 ml-16 text-sm text-coolgray-500">
                 {feature.description}
                 {feature.description}
                 {feature.description}
@@ -70,4 +71,8 @@ export default function Hero(props) {
       </div>
     </div>
   )
+}
+
+Hero.propTypes = {
+  class: PropTypes.string,
 }
