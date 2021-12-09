@@ -1,11 +1,7 @@
 const express = require('express');
 const app = express();
-const infectiousRoute = require('./routes/infectious');
+const infectious = require('./routes/infectious');
 
-app.use('/infectious', infectiousRoute);
-
-app.get('/', (req, res) => {
-    res.send("Hello world!");
-});
+app.use('/infectious', infectious);
 
 app.listen(3000);
