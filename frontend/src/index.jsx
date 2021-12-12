@@ -13,7 +13,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/results" element={<Results />} />
+        <Route path="/results/:query" element={<Results />} />
       </Routes>
     </Router>
   </React.StrictMode>,
