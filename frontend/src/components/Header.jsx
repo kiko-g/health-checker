@@ -12,7 +12,7 @@ export default function Header({ siteTitle }) {
   return (
     <Disclosure
       as="nav"
-      className="bg-bluegray-700 dark:bg-bluegray-700 text-white space-x-4"
+      className="bg-bluegray-700 border-bluegray-700 dark:bg-bluegray-700 dark:border-bluegray-500 text-white space-x-4 border-b-2"
     >
       {({ open }) => {
         return (

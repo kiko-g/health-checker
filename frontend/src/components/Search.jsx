@@ -4,28 +4,6 @@ import { SearchIcon } from "@heroicons/react/outline"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 
-const axios = require("axios")
-const instance = axios.create({
-  timeout: 1000,
-  baseURL: "http://localhost:3000",
-  headers: { "Access-Control-Allow-Origin": "*" },
-})
-
-const request = () => {
-  instance
-    .get("/infectious/dbpedia")
-    .then(function (response) {
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error)
-    })
-    .then(function () {
-      // always executed
-    })
-}
-
 export default function Search(props) {
   const [query, setQuery] = useState("")
 
@@ -39,14 +17,11 @@ export default function Search(props) {
             name="search"
             className="w-full text-lg text-gray-700 px-5 py-3 bg-coolgray-100 focus:bg-coolgray-50 focus:ring-teal-500 focus:border-teal-500 border-0 rounded-l-xl"
             placeholder="Search"
-            onInput={e=>setQuery(e.target.value)}
+            onInput={(e) => setQuery(e.target.value)}
           />
           <div className="p-3">
             <Link to={`/results/${query}`}>
-              <button
-                onClick={request}
-                className="bg-gradient-to-br from-green-400 to-blue-500 hover:opacity-80 duration-200 text-white p-3 rounded-full"
-              >
+              <button className="bg-gradient-to-br from-green-400 to-blue-500 hover:opacity-80 duration-200 text-white p-3 rounded-full">
                 <SearchIcon className="w-6 h-6" />
               </button>
             </Link>
