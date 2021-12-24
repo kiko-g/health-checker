@@ -90,16 +90,16 @@ router.get('/bioportal/all', async (req, res) => {
  * Searches for entries that match the given string
  * TODO: swap "autoimmune" with search string
  */
-router.get('/bioportal/search', async (req, res) => {
-    var query_string =  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n" +
-                        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "SELECT ?uri ?label ?definition WHERE { " +
-                        "   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { " +
-                        "       ?uri a owl:Class . " +
-                        "       ?uri rdfs:label ?label . " +
-                        "       FILTER regex(UCASE(?label), UCASE(\"autoimmune\")) . " +
-                        "   }" +
-                        "} ORDER BY ASC(?label)";
+router.get('/bioportal/search/:searchTerm', async (req, res) => {
+    var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
+                        `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `SELECT ?uri ?label ?definition WHERE { ` +
+                        `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
+                        `       ?uri a owl:Class . ` +
+                        `       ?uri rdfs:label ?label . ` +
+                        `       FILTER regex(UCASE(?label), UCASE(${req.body.searchTerm})) . ` +
+                        `   }` +
+                        `} ORDER BY ASC(?label)`;
 
     await axios({
         url: '/sparql?query=' + encodeURIComponent(query_string) + "&apikey=" + encodeURIComponent(bioportalApiKey),
@@ -120,21 +120,21 @@ router.get('/bioportal/search', async (req, res) => {
  * Gets label, definition and superclass URI for a given URI
  * TODO: swap <http://purl.obolibrary.org/obo/DOID_0060051> with search URI
  */
-router.get('/bioportal/getClass', async (req, res) => {
-    var query_string =  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n" +
-                        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "PREFIX obo: <http://purl.obolibrary.org/obo/>\n" +
-                        "SELECT ?label ?definition ?superclass WHERE { " +
-                        "   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { " +
-                        "       <http://purl.obolibrary.org/obo/DOID_0060051> rdfs:label ?label . " +
-                        "       OPTIONAL { " +
-                        "           <http://purl.obolibrary.org/obo/DOID_0060051> obo:def ?definition . " +
-                        "       }" +
-                        "       OPTIONAL { " +
-                        "           <http://purl.obolibrary.org/obo/DOID_0060051> rdfs:subClassOf ?superclass . " +
-                        "       }" +
-                        "   }" +
-                        "}";
+router.get('/bioportal/getClass/:uri', async (req, res) => {
+    var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
+                        `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
+                        `SELECT ?label ?definition ?superclass WHERE { ` +
+                        `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
+                        `       ${req.body.uri} rdfs:label ?label . ` +
+                        `       OPTIONAL { ` +
+                        `           ${req.body.uri} obo:def ?definition . ` +
+                        `       }` +
+                        `       OPTIONAL { ` +
+                        `           ${req.body.uri} rdfs:subClassOf ?superclass . ` +
+                        `       }` +
+                        `   }` +
+                        `}`;
 
     await axios({
         url: '/sparql?query=' + encodeURIComponent(query_string) + "&apikey=" + encodeURIComponent(bioportalApiKey),
@@ -155,16 +155,16 @@ router.get('/bioportal/getClass', async (req, res) => {
  * Gets synonyms for a given URI
  * TODO: swap <http://purl.obolibrary.org/obo/DOID_0060051> with search URI
  */
-router.get('/bioportal/getSynonyms', async (req, res) => {
-    var query_string =  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n" +
-                        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "PREFIX obo: <http://purl.obolibrary.org/obo/>\n" +
-                        "PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n" +
-                        "SELECT ?synonym WHERE { " +
-                        "   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { " +
-                        "       <http://purl.obolibrary.org/obo/DOID_0050651> goobo:hasExactSynonym ?synonym . " +
-                        "   }" +
-                        "}";
+router.get('/bioportal/getSynonyms/:uri', async (req, res) => {
+    var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
+                        `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
+                        `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
+                        `SELECT ?synonym WHERE { ` +
+                        `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
+                        `       ${req.body.uri} goobo:hasExactSynonym ?synonym . ` +
+                        `   }` +
+                        `}`;
 
     await axios({
         url: '/sparql?query=' + encodeURIComponent(query_string) + "&apikey=" + encodeURIComponent(bioportalApiKey),
@@ -185,16 +185,16 @@ router.get('/bioportal/getSynonyms', async (req, res) => {
  * Gets URIs of subclasses of a given URI
  * TODO: swap <http://purl.obolibrary.org/obo/DOID_114> with search URI
  */
-router.get('/bioportal/getSubClasses', async (req, res) => {
-    var query_string =  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n" +
-                        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "PREFIX obo: <http://purl.obolibrary.org/obo/>\n" +
-                        "PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n" +
-                        "SELECT ?subclass WHERE { " +
-                        "   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { " +
-                        "       ?subclass rdfs:subClassOf <http://purl.obolibrary.org/obo/DOID_114> . " +
-                        "   }" +
-                        "}";
+router.get('/bioportal/getSubClasses/:uri', async (req, res) => {
+    var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
+                        `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
+                        `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
+                        `SELECT ?subclass WHERE { ` +
+                        `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
+                        `       ?subclass rdfs:subClassOf ${req.body.uri} . ` +
+                        `   }` +
+                        `}`;
 
     await axios({
         url: '/sparql?query=' + encodeURIComponent(query_string) + "&apikey=" + encodeURIComponent(bioportalApiKey),
@@ -216,20 +216,20 @@ router.get('/bioportal/getSubClasses', async (req, res) => {
  * might return multiple entries or none, depending on dbpedia contents
  * TODO: swap "autoimmune" with search string
  */
-router.get('/dbpedia/getAbstract', async (req, res) => {
-    var query_string =  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n" +
-                        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
-                        "select ?uri ?label ?abstract where { " +
-                        "   ?uri a dbo:Disease ; " +
-                        "   rdfs:label ?label . " +
-                        "   OPTIONAL { " +
-                        "       ?uri dbo:abstract ?abstract . " +
-                        "   } " +
-                        "   FILTER (LANG ( ?label ) = 'en' ) " +
-                        "   FILTER (LANG ( ?abstract) = 'en' ) " +
-                        "   FILTER regex(UCASE(?label), UCASE(\"autoimmune\")) . " +
-                        "} ORDER BY ASC(?label)"; 
+router.get('/dbpedia/getAbstract/:searchTerm', async (req, res) => {
+    var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
+                        `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `PREFIX dbo: <http://dbpedia.org/ontology/>\n` +
+                        `select ?uri ?label ?abstract where { ` +
+                        `   ?uri a dbo:Disease ; ` +
+                        `   rdfs:label ?label . ` +
+                        `   OPTIONAL { ` +
+                        `       ?uri dbo:abstract ?abstract . ` +
+                        `   } ` +
+                        `   FILTER (LANG ( ?label ) = 'en' ) ` +
+                        `   FILTER (LANG ( ?abstract) = 'en' ) ` +
+                        `   FILTER regex(UCASE(?label), UCASE(${req.body.searchTerm})) . ` +
+                        `} ORDER BY ASC(?label)`; 
 
     await axios({
         url: '/sparql?' + 'default-graph-uri=http%3A%2F%2Fdbpedia.org' + '&query=' + encodeURIComponent(query_string),
