@@ -34,7 +34,6 @@ export default function Header({ siteTitle }) {
                   <div className="text-md font-medium h-auto py-1 ml-4 md:mx-2">
                     <span>
                       <a
-                        target="_blank"
                         rel="noreferrer"
                         href="/"
                         className="hover:text-blue-300 transition duration-200 sm:text-xs xl:text-lg"

@@ -1,13 +1,12 @@
-import './css/hero.css'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { features } from './features'
+import { features } from './data/features'
 
 export default function Hero(props) {
   const classnames = props.class || ''
 
   return (
-    <div className={`hero flex flex-col items-center justify-center min-h-full ${classnames}`}>
+    <div className={`flex flex-col items-center justify-center min-h-full ${classnames}`}>
       <Headlines />
       <Navigation />
       <Description />
@@ -17,8 +16,8 @@ export default function Hero(props) {
 
 const Headlines = () => (
   <div className="text-center">
-    <h2 className="text-xl  text-blue-300     font-semibold tracking-widest uppercase">Health Checker</h2>
-    <h3 className="text-2xl text-bluegray-700 font-extrabold leading-8">A better way to consult health information</h3>
+    <h2 className="text-2xl text-sky-600      font-semibold tracking-widest uppercase">Health Checker</h2>
+    <h3 className="text-2xl text-bluegray-700 font-semibold leading-8">A better way to consult health information</h3>
     <p className="max-w-2xl text-md text-bluegray-600 lg:mx-auto">
       Quickly learn about any disease and its context and surroundings
     </p>
@@ -28,7 +27,7 @@ const Headlines = () => (
 const Navigation = () => (
   <div className="mt-5 z-20">
     <Link to={`/about`}>
-      <button className="text-bluegray-500 hover:text-bluegray-400 font-semibold uppercase tracking-wider px-2 py-1 rounded-md duration-100">
+      <button className="text-bluegray-500 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded-sm duration-200">
         About
       </button>
     </Link>
