@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Disclosure } from "@headlessui/react"
-import { MenuIcon, XIcon } from "@heroicons/react/outline"
-import PropTypes from "prop-types"
-import DarkModeSwitch from "./utilities/DarkModeSwitch"
+import * as React from 'react'
+import { Disclosure } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
+import DarkModeSwitch from './utilities/DarkModeSwitch'
 
 Header.propTypes = {
   siteTitle: PropTypes.string.isRequired,
@@ -23,15 +23,9 @@ export default function Header({ siteTitle }) {
                   <Disclosure.Button className="transition duration-200 ease inline-flex items-center justify-center p-1 ml-3 mt-3 rounded-md text-gray-400 hover:text-white hover:bg-bluegray-400 focus:outline-none focus:ring focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
-                      <XIcon
-                        className="block h-6 w-6 transition duration-200 ease"
-                        aria-hidden="true"
-                      />
+                      <XIcon className="block h-6 w-6 transition duration-200 ease" aria-hidden="true" />
                     ) : (
-                      <MenuIcon
-                        className="block h-6 w-6 transition duration-200 ease"
-                        aria-hidden="true"
-                      />
+                      <MenuIcon className="block h-6 w-6 transition duration-200 ease" aria-hidden="true" />
                     )}
                   </Disclosure.Button>
                 </div>
@@ -66,10 +60,7 @@ export default function Header({ siteTitle }) {
             {/* @@ Mobile view */}
             <Disclosure.Panel className="md:hidden">
               <div className="flex flex-col px-0 pb-3 mr-4 space-y-1 md:block md:px-2">
-                <span
-                  key="nav-dark-mode"
-                  className="rounded-lg text-lg font-medium h-auto mb-4"
-                >
+                <span key="nav-dark-mode" className="rounded-lg text-lg font-medium h-auto mb-4">
                   <DarkModeSwitch />
                 </span>
               </div>

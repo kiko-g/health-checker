@@ -3,17 +3,11 @@
 @tailwind utilities;
 
 .hero {
-  background-color: theme("colors.teal.400");
-  opacity: 20%;
-}
-
-.hero-animated {
   background: linear-gradient(
     to top right,
-    theme("colors.violet.400") 25%,
-    theme("colors.blue.400"),
-    theme("colors.teal.400")
+    theme('colors.violet.200') 25%,
+    theme('colors.blue.200'),
+    theme('colors.teal.100')
   );
-  opacity: 25%;
   background-size: 100% 100%;
 }

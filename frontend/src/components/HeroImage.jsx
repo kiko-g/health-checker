@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from 'react'
 
 export default function HeroImage(props) {
-  const propClassName = props.propClassName || ""
+  const propClassName = props.propClassName || ''
 
   return (
     <div className={` ${propClassName}`}>

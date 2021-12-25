@@ -1,11 +1,11 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import { SearchIcon } from "@heroicons/react/outline"
-import { Link } from "react-router-dom"
-import { useState } from "react"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import { SearchIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Search(props) {
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState('')
 
   return (
     <div className={`w-full flex items-center justify-center ${props.class}`}>
@@ -21,7 +21,7 @@ export default function Search(props) {
           />
           <div className="p-3">
             <Link to={`/results/${query}`}>
-              <button className="bg-gradient-to-br from-green-400 to-blue-500 hover:opacity-80 duration-200 text-white p-3 rounded-full">
+              <button className="bg-gradient-to-br from-teal-300 via-blue-300 to-purple-300 hover:opacity-80 duration-200 text-white p-3 rounded-full">
                 <SearchIcon className="w-6 h-6" />
               </button>
             </Link>

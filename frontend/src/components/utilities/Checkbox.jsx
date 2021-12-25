@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 export default function Checkbox(props) {
   const [checked, setChecked] = useState(props.checked)
@@ -25,7 +25,7 @@ Checkbox.propTypes = {
 }
 
 Checkbox.defaultProps = {
-  color: "red-400",
-  label: "Checkbox Label",
+  color: 'red-400',
+  label: 'Checkbox Label',
   checked: true,
 }

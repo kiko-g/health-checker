@@ -1,24 +1,19 @@
-import "./css/hero.css"
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
-import { features } from "./features"
+import './css/hero.css'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { features } from './features'
 
 export default function Hero(props) {
-  const classnames = props.class || ""
+  const classnames = props.class || ''
 
   return (
-    <div className={`z-10 flex flex-col items-center justify-center ${classnames}`}>
-      <Background />
+    <div className={`hero flex flex-col items-center justify-center min-h-full ${classnames}`}>
       <Headlines />
       <Navigation />
       <Description />
     </div>
   )
 }
-
-const Background = () => (
-  <div className="z-0 hero-animated absolute inset-0 max-w-full xl:max-w-half min-h-screen"></div>
-)
 
 const Headlines = () => (
   <div className="text-center">
@@ -33,7 +28,7 @@ const Headlines = () => (
 const Navigation = () => (
   <div className="mt-5 z-20">
     <Link to={`/about`}>
-      <button className="uppercase tracking-wider bg-bluegray-500 text-white hover:opacity-80 duration-100 px-2 py-1 rounded-md">
+      <button className="text-bluegray-500 hover:text-bluegray-400 font-semibold uppercase tracking-wider px-2 py-1 rounded-md duration-100">
         About
       </button>
     </Link>
@@ -41,7 +36,7 @@ const Navigation = () => (
 )
 
 const Description = () => {
-  const colors = ["teal-300", "blue-300", "purple-400", "orange-300"]
+  const colors = ['rose-400', 'teal-400', 'purple-400', 'blue-400']
   return (
     <div className="mt-10 w-full">
       <dl className="grid md:grid-cols-2 gap-8">

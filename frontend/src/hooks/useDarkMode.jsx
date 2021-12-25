@@ -11,10 +11,9 @@ const useLocalStorage = (key, initialValue) => {
     }
   })
 
-  const setValue = value => {
+  const setValue = (value) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value
+      const valueToStore = value instanceof Function ? value(storedValue) : value
 
       setStoredValue(valueToStore)
 
@@ -27,11 +26,11 @@ const useLocalStorage = (key, initialValue) => {
 }
 
 const useDarkMode = () => {
-  const [enabled, setEnabled] = useLocalStorage("dark-theme")
-  const isEnabled = typeof enabledState === "undefined" && enabled
+  const [enabled, setEnabled] = useLocalStorage('dark-theme')
+  const isEnabled = typeof enabledState === 'undefined' && enabled
 
   useEffect(() => {
-    const className = "dark"
+    const className = 'dark'
     const bodyClass = window.document.body.classList
 
     isEnabled ? bodyClass.add(className) : bodyClass.remove(className)

@@ -1,6 +1,6 @@
-import axios from "axios"
-import Header from "../components/Header"
-import { useParams } from "react-router-dom"
+import axios from 'axios'
+import Header from '../components/Header'
+import { useParams } from 'react-router-dom'
 
 export default function Results() {
   let { query } = useParams()
@@ -19,12 +19,12 @@ export default function Results() {
 
 const request = () => {
   let instance = axios.create({
-    baseURL: process.env.baseURL || "http://localhost:3000",
-    headers: { "Access-Control-Allow-Origin": "*" },
+    baseURL: process.env.baseURL || 'http://localhost:3000',
+    headers: { 'Access-Control-Allow-Origin': '*' },
   })
 
   instance
-    .get("/infectious/dbpedia")
+    .get('/infectious/dbpedia')
     .then(function (response) {
       console.log(response.data)
     })
