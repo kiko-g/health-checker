@@ -6,3 +6,17 @@
   background-size: 200% 200%;
   background: linear-gradient(to top right, #eedeff 20%, #cde2fe, #b2f8ea);
 }
+
+.hero-dark {
+  background-size: 200% 200%;
+  background: linear-gradient(
+    to top right,
+    theme('colors.bluegray.300') 20%,
+    theme('colors.bluegray.200'),
+    theme('colors.bluegray.300')
+  );
+}
+
+.min-h-adjusted {
+  min-height: calc(100vh - 4rem) !important;
+}

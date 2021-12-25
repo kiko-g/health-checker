@@ -1,10 +1,11 @@
+import React from 'react'
 import Layout from '../layout/Layout'
 
-export default function About() {
+export default function Contact() {
   return (
     <Layout>
       <div>
-        <h1>About page content</h1>
+        <h1>Contact Us page content</h1>
       </div>
     </Layout>
   )
