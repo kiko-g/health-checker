@@ -1,38 +1,36 @@
 import axios from 'axios'
-import Header from '../components/Header'
+import Layout from '../layout/Layout'
+import Highlight from '../components/Highlight'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+
+const ax = axios.create({
+  baseURL: process.env.API_URL || 'http://localhost:3000',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+})
 
 export default function Results() {
   let { query } = useParams()
-  console.log(query)
-  console.log(request)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    ax.get('/infectious/dbpedia')
+      .then((response) => {
+        setData(response.data.results.bindings)
+      })
+      .catch((error) => console.log(error))
+  }, [])
 
   return (
-    <div className="min-h-screen bg-coolgray-300 dark:bg-bluegray-700 dark:text-gray-100 font-inter">
-      <Header siteTitle="Health Checker" />
-      <div className="min-h-adjusted mx-auto p-4">
-        <h3>Query: {query}</h3>
+    <Layout>
+      <div className="text-2xl bg-bluegray-400 text-white rounded-lg p-4">
+        QUERY&nbsp;&middot;&nbsp;<span className="text-amber-400 uppercase font-bold">{query}</span>
       </div>
-    </div>
+      <div className="grid grid-cols-4 gap-2 my-4">
+        {data.map((item, index) => (
+          <Highlight key={`concept-${index}`} url={item['Concept'].value} index={index} />
+        ))}
+      </div>
+    </Layout>
   )
-}
-
-const request = () => {
-  let instance = axios.create({
-    baseURL: process.env.baseURL || 'http://localhost:3000',
-    headers: { 'Access-Control-Allow-Origin': '*' },
-  })
-
-  instance
-    .get('/infectious/dbpedia')
-    .then(function (response) {
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error)
-    })
-    .then(function () {
-      // always executed
-    })
 }

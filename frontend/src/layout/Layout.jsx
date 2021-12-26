@@ -14,7 +14,7 @@ const HomeLayout = ({ content }) => (
 const PageLayout = ({ content }) => (
   <div className="min-h-screen bg-gradient-to-br from-bluegray-100 via-bluegray-200 to-bluegray-300 dark:bg-bluegray-700 font-inter">
     <Header siteTitle="Health Checker" />
-    <div className="min-h-adjusted p-4 dark:bg-bluegray-500 dark:text-white">{content}</div>
+    <div className="min-h-adjusted mx-auto p-4 dark:bg-bluegray-500 dark:text-white">{content}</div>
   </div>
 )
 
