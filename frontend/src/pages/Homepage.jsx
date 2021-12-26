@@ -6,8 +6,8 @@ import Layout from '../layout/Layout'
 export default function Homepage() {
   return (
     <Layout isHome={true}>
-      <Hero class="px-16 py-12" />
-      <Search class="px-16 py-12" />
+      <Hero classnames="px-16 py-12" />
+      <Search classnames="px-16 py-12" />
     </Layout>
   )
 }

@@ -1,12 +1,15 @@
 import React from 'react'
 
-export default function Highlight({ url, index }) {
+export default function Highlight({ url, index, classnames }) {
   return (
     <div>
-      <a className="p-1 text-bluegray-500 hover:bg-bluegray-500 hover:text-white duration-100" href={encodeURI(url)}>
+      <a
+        href={encodeURI(url)}
+        className={`p-0 text-bluegray-500 hover:bg-bluegray-500 hover:text-white duration-100 ${classnames}`}
+      >
         {url.split('://')[1]}
       </a>
-      <span className="p-1 text-rose-800">({index})</span>
+      <small className="text-rose-800">&nbsp;({index})</small>
     </div>
   )
 }

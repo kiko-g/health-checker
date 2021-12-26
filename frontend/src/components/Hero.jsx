@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { features } from './data/features'
 
 export default function Hero(props) {
-  const classnames = props.class || ''
+  const classnames = props.classnames || ''
 
   return (
     <div className={`hero flex flex-col items-center justify-center min-h-full ${classnames}`}>

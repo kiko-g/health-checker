@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import PropTypes from 'prop-types'
-import DarkModeSwitch from './utilities/DarkModeSwitch'
+import { DarkModeSwitch } from './Utils'
 
 Header.propTypes = {
   siteTitle: PropTypes.string.isRequired,
@@ -11,7 +11,7 @@ Header.propTypes = {
 
 export default function Header({ siteTitle }) {
   return (
-    <Disclosure as="nav" className="bg-bluegray-600 dark:bg-bluegray-700 text-white space-x-4">
+    <Disclosure as="nav" className="bg-bluegray-600 dark:bg-bluegray-700 text-white space-x-4 shadow-xl">
       {({ open }) => {
         return (
           <>

@@ -8,7 +8,7 @@ export default function Search(props) {
   const [query, setQuery] = useState('')
 
   return (
-    <div className={`dark:bg-bluegray-400 w-full flex items-center justify-center ${props.class}`}>
+    <div className={`dark:bg-bluegray-300 w-full flex items-center justify-center ${props.class}`}>
       <form className="w-124 m-2">
         <div className="z-10 flex relative shadow-md rounded-xl bg-coolgray-100 border-gray-300">
           <input

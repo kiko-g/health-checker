@@ -1,36 +1,80 @@
 import axios from 'axios'
 import Layout from '../layout/Layout'
 import Highlight from '../components/Highlight'
-import { useState, useEffect } from 'react'
+import Loading from '../components/Loading'
+import QueryBanner from '../components/QueryBanner'
+import { Headline, Button } from '../components/Utils'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-const ax = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.API_URL || 'http://localhost:3000',
   headers: { 'Access-Control-Allow-Origin': '*' },
 })
 
 export default function Results() {
-  let { query } = useParams()
-  const [data, setData] = useState([])
+  const { query } = useParams()
+  const [limit, setLimit] = useState(20)
+  const [mounted, setMounted] = useState(false)
+  const [dbpedia, setDbpedia] = useState([])
+  const [bioportal, setBioportal] = useState([])
 
   useEffect(() => {
-    ax.get('/infectious/dbpedia')
-      .then((response) => {
-        setData(response.data.results.bindings)
+    let requests = [axiosInstance.get('/infectious/dbpedia'), axiosInstance.get('/infectious/bioportal')]
+    axios
+      .all(requests)
+      .then(
+        axios.spread((...responses) => {
+          setDbpedia(responses[0].data.results.bindings)
+          setBioportal(responses[1].data.results.bindings)
+        })
+      )
+      .catch((errors) => console.error(errors))
+      .then(() => {
+        setMounted(true)
       })
-      .catch((error) => console.log(error))
   }, [])
 
   return (
     <Layout>
-      <div className="text-2xl bg-bluegray-400 text-white rounded-lg p-4">
-        QUERY&nbsp;&middot;&nbsp;<span className="text-amber-400 uppercase font-bold">{query}</span>
-      </div>
-      <div className="grid grid-cols-4 gap-2 my-4">
-        {data.map((item, index) => (
-          <Highlight key={`concept-${index}`} url={item['Concept'].value} index={index} />
-        ))}
-      </div>
+      <QueryBanner query={query} />
+      {mounted ? (
+        <section>
+          <div className="flex space-x-4  p-4">
+            <div className="p-3 bg-bluegray-50 dark:bg-bluegray-200 rounded-md">
+              <Headline text="DB Pedia" />
+              {dbpedia
+                .filter((item, index) => index < limit)
+                .map((item, index) => (
+                  <Highlight
+                    classnames={`text-white`}
+                    key={`concept-dbpedia-${index}`}
+                    url={item['Concept'].value}
+                    index={index}
+                  />
+                ))}
+            </div>
+            <div className="p-3 bg-bluegray-50 dark:bg-bluegray-200 rounded-md">
+              <Headline text="Bioportal" />
+              {bioportal
+                .filter((item, index) => index < limit)
+                .map((item, index) => (
+                  <Highlight
+                    classnames={`text-white`}
+                    key={`entry-bioportal-${index}`}
+                    url={item.ont.value}
+                    index={index}
+                  />
+                ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <Button onClick={() => setLimit(limit + 20)} />
+          </div>
+        </section>
+      ) : (
+        <Loading />
+      )}
     </Layout>
   )
 }

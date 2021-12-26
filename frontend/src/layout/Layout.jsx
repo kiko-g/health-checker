@@ -1,9 +1,9 @@
 import React from 'react'
 import Header from '../components/Header'
-import DarkModeSwitch from '../components/utilities/DarkModeSwitch'
+import { DarkModeSwitch } from '../components/Utils'
 
 const HomeLayout = ({ content }) => (
-  <div className="min-h-screen bg-gradient-to-br from-bluegray-100 via-bluegray-200 to-bluegray-300 dark:bg-bluegray-700 font-inter">
+  <div className="min-h-screen bg-bluegray-200dark:bg-bluegray-700 font-inter">
     <span className="absolute inset-y-0 top-4 left-4">
       <DarkModeSwitch />
     </span>
@@ -12,9 +12,9 @@ const HomeLayout = ({ content }) => (
 )
 
 const PageLayout = ({ content }) => (
-  <div className="min-h-screen bg-gradient-to-br from-bluegray-100 via-bluegray-200 to-bluegray-300 dark:bg-bluegray-700 font-inter">
+  <div className="min-h-screen bg-bluegray-200dark:bg-bluegray-700 font-inter">
     <Header siteTitle="Health Checker" />
-    <div className="min-h-adjusted mx-auto p-4 dark:bg-bluegray-500 dark:text-white">{content}</div>
+    <div className="min-h-adjusted mx-auto dark:bg-bluegray-500 dark:text-white">{content}</div>
   </div>
 )
 
