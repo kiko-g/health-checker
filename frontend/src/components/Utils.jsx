@@ -22,17 +22,21 @@ export const PulseLoader = () => (
   </div>
 )
 
-export const Button = (onClick) => (
+export const Button = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="px-4 py-2 rounded-lg font-semibold focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 focus:ring-indigo-600 dark:bg-bluegray-700 dark:text-bluegray-100 dark:hover:bg-bluegray-600 dark:hover:text-white dark:focus:ring-bluegray-500 mt-2"
+    className="px-4 py-2 rounded-lg font-semibold focus:ring-2 bg-teal-50 text-teal-600 hover:bg-teal-100 hover:text-teal-700 focus:ring-teal-600 duration-200 mt-2"
   >
     Load more
   </button>
 )
 
 export const Headline = ({ text }) => {
-  return <h1 className="text-3xl font-bold text-indigo-400 dark:text-indigo-300 mb-1">{text}</h1>
+  return (
+    <h1 className="text-xl px-4 py-2 rounded-sm font-semibold focus:ring-2 bg-bluegray-100 text-bluegray-600 mb-1">
+      {text}
+    </h1>
+  )
 }
 
 export const DarkModeSwitch = () => {

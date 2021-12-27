@@ -33,15 +33,15 @@ export default function Results() {
       .then(() => {
         setMounted(true)
       })
-  }, [])
+  }, [query])
 
   return (
     <Layout>
-      <QueryBanner query={query} />
       {mounted ? (
         <section>
-          <div className="flex space-x-4  p-4">
-            <div className="p-3 bg-bluegray-50 dark:bg-bluegray-200 rounded-md">
+          <QueryBanner query={query} />
+          <div className="flex space-x-4 p-4">
+            <div className="p-3 rounded-md">
               <Headline text="DB Pedia" />
               {dbpedia
                 .filter((item, index) => index < limit)
@@ -54,7 +54,7 @@ export default function Results() {
                   />
                 ))}
             </div>
-            <div className="p-3 bg-bluegray-50 dark:bg-bluegray-200 rounded-md">
+            <div className="p-3 rounded-md">
               <Headline text="Bioportal" />
               {bioportal
                 .filter((item, index) => index < limit)
@@ -68,7 +68,7 @@ export default function Results() {
                 ))}
             </div>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex mb-4 items-center justify-center">
             <Button onClick={() => setLimit(limit + 20)} />
           </div>
         </section>
