@@ -2,9 +2,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { features } from './data/features'
 
-export default function Hero(props) {
-  const classnames = props.classnames || ''
-
+export default function Hero({ classnames }) {
   return (
     <div className={`hero flex flex-col items-center justify-center min-h-full ${classnames}`}>
       <Headlines />
@@ -12,6 +10,10 @@ export default function Hero(props) {
       <Description />
     </div>
   )
+}
+
+Hero.propTypes = {
+  classnames: PropTypes.string,
 }
 
 const Headlines = () => (
@@ -27,17 +29,17 @@ const Headlines = () => (
 const Navigation = () => (
   <div className="mt-5 z-20 space-x-4">
     <Link to={`/about`}>
-      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded-sm duration-200">
+      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded duration-200">
         About
       </button>
     </Link>
     <Link to={`/about`}>
-      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded-sm duration-200">
+      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded duration-200">
         Contact us
       </button>
     </Link>
     <Link to={`/about`}>
-      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded-sm duration-200">
+      <button className="text-bluegray-500 hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white font-semibold uppercase tracking-wider px-2 py-1 rounded duration-200">
         FAQ
       </button>
     </Link>
@@ -53,7 +55,7 @@ const Description = () => {
           <div key={feature.name} className="relative">
             <dt>
               <div
-                className={`absolute flex items-center justify-center h-12 w-12 rounded-md bg-${colors[index]} text-white`}
+                className={`absolute flex items-center justify-center h-12 w-12 rounded bg-${colors[index]} text-white`}
               >
                 <feature.icon className="h-6 w-6" aria-hidden="true" />
               </div>
@@ -65,8 +67,4 @@ const Description = () => {
       </dl>
     </div>
   )
-}
-
-Hero.propTypes = {
-  class: PropTypes.string,
 }

@@ -2,14 +2,22 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import { SearchIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-export default function Search(props) {
+export default function Search({ classnames }) {
   const [query, setQuery] = useState('')
+  const [warning, setWarning] = useState(false)
+
+  useEffect(() => {
+    if (warning)
+      setTimeout(() => {
+        setWarning(!warning)
+      }, 3000)
+  }, [warning, setWarning])
 
   return (
-    <div className={`dark:bg-bluegray-300 w-full flex items-center justify-center ${props.class}`}>
-      <form className="w-124 m-2">
+    <div className={`w-full flex items-center justify-center ${classnames}`}>
+      <div className="w-124 m-2">
         <div className="z-10 flex relative shadow-md rounded-xl bg-coolgray-100 border-gray-300">
           <input
             id="search-bar"
@@ -20,18 +28,31 @@ export default function Search(props) {
             onInput={(e) => setQuery(e.target.value)}
           />
           <div className="p-3">
-            <Link to={`/results/${query}`}>
-              <button className="bg-gradient-to-br from-teal-300 via-blue-300 to-purple-300 hover:opacity-80 duration-200 text-white p-3 rounded-full">
-                <SearchIcon className="w-6 h-6" />
-              </button>
-            </Link>
+            {query !== '' ? (
+              <Link to={`/results/${query}`}>
+                <SearchButton />
+              </Link>
+            ) : (
+              <SearchButton onClick={() => setWarning(true)} />
+            )}
           </div>
         </div>
-      </form>
+        {warning ? <span className="ml-2 text-xs font-light text-red-400">Search query cannot be empty</span> : null}
+      </div>
     </div>
   )
 }
 
 Search.propTypes = {
-  class: PropTypes.string,
+  classnames: PropTypes.string,
 }
+
+const SearchButton = ({ onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="bg-gradient-to-br from-teal-300 via-blue-300 to-purple-300 hover:opacity-80 duration-200 text-white p-3 rounded-full"
+  >
+    <SearchIcon className="w-6 h-6" />
+  </button>
+)

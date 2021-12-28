@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 
 export default function Results() {
   const { query } = useParams()
-  const [limit, setLimit] = useState(20)
+  const [limit, setLimit] = useState(10)
   const [mounted, setMounted] = useState(false)
   const [dbpedia, setDbpedia] = useState([])
   const [bioportal, setBioportal] = useState([])
@@ -40,36 +40,40 @@ export default function Results() {
       {mounted ? (
         <section>
           <QueryBanner query={query} />
-          <div className="flex space-x-4 p-4">
-            <div className="p-3 rounded-md">
+          <div className="flex space-x-4 my-4">
+            <div>
               <Headline text="DB Pedia" />
-              {dbpedia
-                .filter((item, index) => index < limit)
-                .map((item, index) => (
-                  <Highlight
-                    classnames={`text-white`}
-                    key={`concept-dbpedia-${index}`}
-                    url={item['Concept'].value}
-                    index={index}
-                  />
-                ))}
+              <div className="px-2">
+                {dbpedia
+                  .filter((item, index) => index < limit)
+                  .map((item, index) => (
+                    <Highlight
+                      classnames={`text-white`}
+                      key={`concept-dbpedia-${index}`}
+                      url={item['Concept'].value}
+                      index={index}
+                    />
+                  ))}
+              </div>
             </div>
-            <div className="p-3 rounded-md">
+            <div>
               <Headline text="Bioportal" />
-              {bioportal
-                .filter((item, index) => index < limit)
-                .map((item, index) => (
-                  <Highlight
-                    classnames={`text-white`}
-                    key={`entry-bioportal-${index}`}
-                    url={item.ont.value}
-                    index={index}
-                  />
-                ))}
+              <div className="px-2">
+                {bioportal
+                  .filter((item, index) => index < limit)
+                  .map((item, index) => (
+                    <Highlight
+                      classnames={`text-white`}
+                      key={`entry-bioportal-${index}`}
+                      url={item.ont.value}
+                      index={index}
+                    />
+                  ))}
+              </div>
             </div>
           </div>
-          <div className="flex mb-4 items-center justify-center">
-            <Button onClick={() => setLimit(limit + 20)} />
+          <div className="flex items-center justify-center">
+            <Button text="Load more" onClick={() => setLimit(limit + 10)} classnames="mb-8" />
           </div>
         </section>
       ) : (

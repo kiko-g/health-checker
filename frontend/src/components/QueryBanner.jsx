@@ -3,23 +3,23 @@ import { Link } from 'react-router-dom'
 import { SpeakerphoneIcon, XIcon } from '@heroicons/react/outline'
 
 export default function QueryBanner({ query }) {
-  const [closed, setClosed] = useState(false)
+  const [dismiss, setDismiss] = useState(false)
 
   return (
-    <div className={`bg-blue-300 ${closed ? 'hidden' : ''}`}>
-      <div className="mx-auto py-3 px-3 sm:px-4 lg:px-6">
+    <div className={`bg-blue-100 text-bluegray-700 rounded ${dismiss ? 'hidden' : ''}`}>
+      <div className="mx-auto p-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
-            <span className="flex p-2 rounded-lg bg-blue-200">
-              <SpeakerphoneIcon className="h-6 w-6 text-white" aria-hidden="true" />
+            <span className="flex p-2 rounded">
+              <SpeakerphoneIcon className="h-6 w-6" aria-hidden="true" />
             </span>
-            <p className="ml-3 font-medium text-white truncate">
-              <span>Showing results for &apos;{query}&apos;</span>
+            <p className="ml-3 truncate">
+              Showing results for <strong>{query}</strong>
             </p>
           </div>
           <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <Link to={`/`}>
-              <button className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-300 bg-white hover:bg-blue-50">
+              <button className="flex items-center justify-center px-4 py-2 border border-transparent rounded shadow-sm text-sm font-medium bg-white hover:bg-bluegray-50 duration-100">
                 Go back home
               </button>
             </Link>
@@ -27,11 +27,11 @@ export default function QueryBanner({ query }) {
           <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
             <button
               type="button"
-              onClick={() => setClosed(true)}
-              className="-mr-1 flex p-2 rounded-md hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
+              onClick={() => setDismiss(true)}
+              className="flex p-2 rounded hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2 duration-100"
             >
               <span className="sr-only">Dismiss</span>
-              <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
+              <XIcon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
         </div>

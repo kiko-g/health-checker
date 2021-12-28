@@ -1,73 +1,23 @@
 import * as React from 'react'
-import { Switch } from '@headlessui/react'
-import { MoonIcon, SunIcon } from '@heroicons/react/solid'
 import PropTypes from 'prop-types'
-import useDarkMode from '../hooks/useDarkMode'
 
-export const PulseLoader = () => (
-  <div className="border border-gray-100 shadow-lg rounded-md p-4 max-w-4xl w-full mx-auto">
-    <div className="animate-pulse flex space-x-4">
-      <div className="rounded-full bg-gray-200 h-10 w-10"></div>
-      <div className="flex-1 space-y-6 py-1">
-        <div className="h-2 bg-gray-200 rounded"></div>
-        <div className="space-y-3">
-          <div className="grid grid-cols-3 gap-4">
-            <div className="h-2 bg-gray-200 rounded col-span-2"></div>
-            <div className="h-2 bg-gray-200 rounded col-span-1"></div>
-          </div>
-          <div className="h-2 bg-gray-200 rounded"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-export const Button = ({ onClick }) => (
+export const Button = ({ text, onClick, classnames }) => (
   <button
     onClick={onClick}
-    className="px-4 py-2 rounded-lg font-semibold focus:ring-2 bg-teal-50 text-teal-600 hover:bg-teal-100 hover:text-teal-700 focus:ring-teal-600 duration-200 mt-2"
+    className={`
+    bg-bluegray-100 text-bluegray-600 hover:bg-bluegray-700 hover:text-white focus:ring-bluegray-500
+    dark:bg-bluegray-600 dark:text-white dark:hover:bg-bluegray-100 dark:hover:text-bluegray-600 dark:focus:ring-bluegray-500
+    px-4 py-2 rounded-full font-semibold focus:ring-2 duration-100 ${classnames}`}
   >
-    Load more
+    {text}
   </button>
 )
 
 export const Headline = ({ text }) => {
   return (
-    <h1 className="text-xl px-4 py-2 rounded-sm font-semibold focus:ring-2 bg-bluegray-100 text-bluegray-600 mb-1">
+    <h1 className="text-xl px-4 py-2 rounded font-semibold focus:ring-2 bg-bluegray-100 text-bluegray-700 mb-1">
       {text}
     </h1>
-  )
-}
-
-export const DarkModeSwitch = () => {
-  const [darkTheme, setDarkTheme] = useDarkMode()
-  const handleMode = () => setDarkTheme(!darkTheme)
-
-  return (
-    <Switch.Group>
-      <div className="flex items-center">
-        <Switch.Label passive className="mr-2">
-          {darkTheme ? (
-            <MoonIcon className="block h-6 w-6 transition duration-200 ease text-bluegray-400" aria-hidden="true" />
-          ) : (
-            <SunIcon className="block h-6 w-6 transition duration-200 ease text-orange-300" aria-hidden="true" />
-          )}
-        </Switch.Label>
-        <Switch
-          checked={darkTheme}
-          onChange={handleMode}
-          className={`${
-            darkTheme ? 'bg-blue-300' : 'bg-bluegray-400'
-          } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none`}
-        >
-          <span
-            className={`${
-              darkTheme ? 'translate-x-6' : 'translate-x-1'
-            } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
-          />
-        </Switch>
-      </div>
-    </Switch.Group>
   )
 }
 
@@ -79,7 +29,7 @@ export const Checkbox = (props) => {
     <label className="inline-flex items-center">
       <input
         type="checkbox"
-        className={`form-checkbox duration-100 focus:ring-blue-200 border-coolgray-300 border-2 rounded-sm p-2 text-${props.color}`}
+        className={`form-checkbox duration-100 focus:ring-bluegray-200 border-coolgray-300 border-2 rounded p-2 text-${props.color}`}
         checked={checked}
         onChange={handleClick}
       />
