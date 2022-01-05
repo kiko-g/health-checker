@@ -93,10 +93,14 @@ router.get('/bioportal/all', async (req, res) => {
 router.get('/bioportal/search/:searchTerm', async (req, res) => {
     var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
                         `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
+                        `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
                         `SELECT ?uri ?label ?definition WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
                         `       ?uri a owl:Class . ` +
                         `       ?uri rdfs:label ?label . ` +
+                        `       OPTIONAL { ` +
+                        `           ?uri obo:def ?definition . ` +
+                        `       }` +
                         `       FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
                         `   }` +
                         `} ORDER BY ASC(?label)`;
