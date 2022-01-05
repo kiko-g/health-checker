@@ -97,7 +97,7 @@ router.get('/bioportal/search/:searchTerm', async (req, res) => {
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
                         `       ?uri a owl:Class . ` +
                         `       ?uri rdfs:label ?label . ` +
-                        `       FILTER regex(UCASE(?label), UCASE(${req.body.searchTerm})) . ` +
+                        `       FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
                         `   }` +
                         `} ORDER BY ASC(?label)`;
 
@@ -126,12 +126,12 @@ router.get('/bioportal/getClass/:uri', async (req, res) => {
                         `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
                         `SELECT ?label ?definition ?superclass WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       ${req.body.uri} rdfs:label ?label . ` +
+                        `       <${req.params.uri}> rdfs:label ?label . ` +
                         `       OPTIONAL { ` +
-                        `           ${req.body.uri} obo:def ?definition . ` +
+                        `           <${req.params.uri}> obo:def ?definition . ` +
                         `       }` +
                         `       OPTIONAL { ` +
-                        `           ${req.body.uri} rdfs:subClassOf ?superclass . ` +
+                        `           <${req.params.uri}> rdfs:subClassOf ?superclass . ` +
                         `       }` +
                         `   }` +
                         `}`;
@@ -162,7 +162,7 @@ router.get('/bioportal/getSynonyms/:uri', async (req, res) => {
                         `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
                         `SELECT ?synonym WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       ${req.body.uri} goobo:hasExactSynonym ?synonym . ` +
+                        `       <${req.params.uri}> goobo:hasExactSynonym ?synonym . ` +
                         `   }` +
                         `}`;
 
@@ -192,7 +192,7 @@ router.get('/bioportal/getSubClasses/:uri', async (req, res) => {
                         `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
                         `SELECT ?subclass WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       ?subclass rdfs:subClassOf ${req.body.uri} . ` +
+                        `       ?subclass rdfs:subClassOf <${req.params.uri}> . ` +
                         `   }` +
                         `}`;
 
@@ -228,7 +228,7 @@ router.get('/dbpedia/getAbstract/:searchTerm', async (req, res) => {
                         `   } ` +
                         `   FILTER (LANG ( ?label ) = 'en' ) ` +
                         `   FILTER (LANG ( ?abstract) = 'en' ) ` +
-                        `   FILTER regex(UCASE(?label), UCASE(${req.body.searchTerm})) . ` +
+                        `   FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
                         `} ORDER BY ASC(?label)`; 
 
     await axios({
