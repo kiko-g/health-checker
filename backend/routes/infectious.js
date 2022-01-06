@@ -130,12 +130,12 @@ router.get('/bioportal/getClass/:uri', async (req, res) => {
                         `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
                         `SELECT ?label ?definition ?superclass WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       <${req.params.uri}> rdfs:label ?label . ` +
+                        `       <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> rdfs:label ?label . ` +
                         `       OPTIONAL { ` +
-                        `           <${req.params.uri}> obo:def ?definition . ` +
+                        `           <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> obo:def ?definition . ` +
                         `       }` +
                         `       OPTIONAL { ` +
-                        `           <${req.params.uri}> rdfs:subClassOf ?superclass . ` +
+                        `           <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> rdfs:subClassOf ?superclass . ` +
                         `       }` +
                         `   }` +
                         `}`;
@@ -166,7 +166,7 @@ router.get('/bioportal/getSynonyms/:uri', async (req, res) => {
                         `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
                         `SELECT ?synonym WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       <${req.params.uri}> goobo:hasExactSynonym ?synonym . ` +
+                        `       <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> goobo:hasExactSynonym ?synonym . ` +
                         `   }` +
                         `}`;
 
@@ -196,7 +196,7 @@ router.get('/bioportal/getSubClasses/:uri', async (req, res) => {
                         `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
                         `SELECT ?subclass WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       ?subclass rdfs:subClassOf <${req.params.uri}> . ` +
+                        `       ?subclass rdfs:subClassOf <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> . ` +
                         `   }` +
                         `}`;
 
