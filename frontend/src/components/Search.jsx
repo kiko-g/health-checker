@@ -18,7 +18,6 @@ export default function Search({ classnames }) {
   return (
     <div className={`w-full flex items-center justify-center ${classnames}`}>
       <div className="w-124 m-2">
-      <h3 className="text-xl mb-3 text-center text-bluegray-700 font-semibold">Get started here - search for a medical condition</h3>
         <div className="z-10 flex relative shadow-md rounded-xl bg-coolgray-100 border-gray-300">
           <input
             id="search-bar"

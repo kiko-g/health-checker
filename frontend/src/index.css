@@ -7,6 +7,10 @@
   background: linear-gradient(to top right, #eedeff 20%, #cde2fe, #b2f8ea);
 }
 
+.header-color {
+  background: linear-gradient(to top right, #cde2fe, #b2f8ea);
+}
+
 .min-h-adjusted {
   min-height: calc(100vh - 6rem) !important;
 }

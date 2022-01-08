@@ -3,6 +3,7 @@ import Layout from '../layout/Layout'
 import Highlight from '../components/Highlight'
 import Loading from '../components/Loading'
 import QueryBanner from '../components/QueryBanner'
+import Search from '../components/Search'
 import { Button } from '../components/Utils'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -39,15 +40,16 @@ export default function Results() {
   return (
     <Layout>
       {mounted ? (
-        <section className="space-y-4">
+        <section className="space-y-5">
           <QueryBanner query={query} />
+          <Search></Search>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
             {bioportal
               .filter((item, index) => index < limit)
               .map((item, index) => (
                 <Highlight
                   index={index}
-                  classnames={`text-white`}
+                  classnames={`text-white hover:text-blue-400`}
                   key={`entry-bioportal-${index}`}
                   uri={item.uri.value}
                   label={item.label.value}
