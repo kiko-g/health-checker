@@ -9,7 +9,7 @@ export default function Header({ siteTitle }) {
   return (
     <Disclosure
       as="nav"
-      className="bg-bluegray-200 text-bluegray-700 dark:bg-bluegray-600 dark:text-white space-x-4 shadow-md"
+      className="header-color text-bluegray-700 dark:bg-bluegray-600 dark:text-white space-x-4 shadow-md"
     >
       {({ open }) => {
         return (
@@ -48,29 +48,29 @@ const Hamburger = ({ open }) => (
 )
 
 const Home = ({ siteTitle }) => (
-  <div className="text-md font-medium h-auto py-0.5 ml-4 md:mx-2 space-x-12">
+  <div className="text-sky-600 h-auto py-0.5 ml-4 md:mx-2 space-x-12">
     <Link to={`/`}>
       <button className="hover:bg-opacity-50 hover:text-bluegray-400 transition duration-200">
-        <span className="tracking-wider uppercase font-semibold">{siteTitle}</span>
+        <span className="tracking-wider uppercase font-bold">{siteTitle}</span>
       </button>
     </Link>
   </div>
 )
 
 const Navigation = () => (
-  <div className="hidden md:inline-flex md:space-x-2">
+  <div className="hidden md:inline-flex md:space-x-5">
     <Link to={`/about`}>
-      <button className="hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
+      <button className="text-blue-400 hover:bg-opacity-50 uppercase hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
         About
       </button>
     </Link>
     <Link to={`/faq`}>
-      <button className="hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
+      <button className="text-blue-400 hover:bg-opacity-50 uppercase hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
         FAQ
       </button>
     </Link>
     <Link to={`/contact`}>
-      <button className="hover:bg-opacity-50 hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
+      <button className="text-blue-400 hover:bg-opacity-50 uppercase hover:bg-bluegray-400 hover:text-white px-1.5 py-0.5 rounded duration-200">
         Contact us
       </button>
     </Link>

@@ -20,7 +20,7 @@ export default function DarkModeSwitch() {
           checked={darkTheme}
           onChange={handleMode}
           className={`${
-            darkTheme ? 'bg-blue-300' : 'bg-bluegray-400'
+            darkTheme ? 'bg-blue-300' : 'bg-sky-300'
           } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none`}
         >
           <span

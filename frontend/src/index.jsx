@@ -5,6 +5,7 @@ import Faq from './pages/Faq'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Results from './pages/Results'
+import Overview from './pages/Overview'
 import Homepage from './pages/Homepage'
 import reportWebVitals from './test/reportWebVitals'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/results/:query" element={<Results />} />
+        <Route path="/overview" element={<Overview />} />
       </Routes>
     </Router>
   </React.StrictMode>,

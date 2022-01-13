@@ -4,7 +4,12 @@ import { features } from './data/features'
 
 export default function Hero({ classnames }) {
   return (
-    <div className={`hero flex flex-col items-center justify-center min-h-full ${classnames}`}>
+    <div
+      className={`
+        bg-gradient-to-bl from-blue-200 via-teal-100 to-violet-200
+        dark:bg-gradient-to-bl dark:from-bluegray-700 dark:via-bluegray-700 dark:to-bluegray-700
+       dark:text-white flex flex-col items-center justify-center min-h-full ${classnames}`}
+    >
       <Headlines />
       <Navigation />
       <Description />
@@ -18,9 +23,11 @@ Hero.propTypes = {
 
 const Headlines = () => (
   <div className="text-center">
-    <h2 className="text-2xl text-sky-600 font-semibold tracking-widest uppercase">Health Checker</h2>
-    <h3 className="text-2xl text-bluegray-700 font-semibold leading-8">A better way to consult health information</h3>
-    <p className="max-w-2xl text-md text-bluegray-600 lg:mx-auto">
+    <h2 className="text-3xl text-sky-600 dark:text-sky-200 font-semibold tracking-widest uppercase">Health Checker</h2>
+    <h3 className="text-2xl text-bluegray-700 dark:text-sky-100 font-semibold leading-8">
+      A better way to consult health information
+    </h3>
+    <p className="max-w-2xl text-md text-bluegray-600 dark:text-white lg:mx-auto">
       Quickly learn about any disease and its context and surroundings
     </p>
   </div>
@@ -59,9 +66,9 @@ const Description = () => {
               >
                 <feature.icon className="h-6 w-6" aria-hidden="true" />
               </div>
-              <p className="ml-16 text-lg leading-6 font-medium text-coolgray-800">{feature.name}</p>
+              <p className="ml-16 text-lg leading-6 font-semibold text-coolgray-800">{feature.name}</p>
             </dt>
-            <dd className="mt-1 ml-16 text-sm text-coolgray-500">{feature.description}</dd>
+            <dd className="mt-2 ml-16 font-medium text-justify text-sm text-coolgray-500">{feature.description}</dd>
           </div>
         ))}
       </dl>

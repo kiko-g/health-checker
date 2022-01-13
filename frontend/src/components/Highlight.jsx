@@ -1,14 +1,17 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-export default function Highlight({ uri = 'uri', label = 'label', definition = '', index, classnames }) {
+export default function Highlight({ uri = 'uri', label = 'label', definition = '', index, classnames, styling }) {
   return (
-    <div className="p-3 shadow rounded-md bg-white space-y-1">
-      <h3
-        className={`capitalize tracking-wide text-bluegray-700 dark:text-white hover:text-blue-400 dark:hover:text-blue-200 duration-150 ${classnames}`}
-      >
-        {label}
-      </h3>
-      <p className="font-normal text-xs text-gray-500">{definition}</p>
+    <div className={`p-3 shadow rounded-md bg-white space-y-1 ${styling}`}>
+      <Link to={`/overview`}>
+        <h3
+          className={`capitalize tracking-wide text-bluegray-700 dark:text-white dark:hover:text-blue-200 duration-150 ${classnames}`}
+        >
+          {label}
+        </h3>
+      </Link>
+      <p className="font-light text-sm text-gray-500 text-justify">{definition}</p>
     </div>
   )
 }
