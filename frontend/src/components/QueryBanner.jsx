@@ -6,7 +6,7 @@ export default function QueryBanner({ query }) {
   const [dismiss, setDismiss] = useState(false)
 
   return (
-    <div className={`bg-blue-100 text-bluegray-700 rounded ${dismiss ? 'hidden' : ''}`}>
+    <div className={`bg-blue-100 text-slate-700 rounded ${dismiss ? 'hidden' : ''}`}>
       <div className="mx-auto p-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
@@ -19,7 +19,7 @@ export default function QueryBanner({ query }) {
           </div>
           <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <Link to={`/`}>
-              <button className="flex items-center justify-center px-4 py-2 border border-transparent rounded shadow-sm text-sm font-medium bg-white hover:bg-bluegray-50 duration-100">
+              <button className="flex items-center justify-center px-4 py-2 border border-transparent rounded shadow-sm text-sm font-medium bg-white hover:bg-slate-50 duration-100">
                 Go back home
               </button>
             </Link>

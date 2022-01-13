@@ -9,7 +9,7 @@ export default function Layout(props) {
 }
 
 const HomeLayout = ({ content }) => (
-  <div className="min-h-screen bg-bluegray-50 dark:bg-bluegray-700 font-inter font-medium">
+  <div className="min-h-screen bg-slate-50 dark:bg-slate-700 font-inter font-medium">
     <span className="absolute inset-y-0 top-4 left-4">
       <DarkModeSwitch />
     </span>
@@ -18,7 +18,7 @@ const HomeLayout = ({ content }) => (
 )
 
 const PageLayout = ({ content }) => (
-  <div className="min-h-screen bg-bluegray-50 dark:bg-bluegray-700 dark:text-white font-inter font-medium">
+  <div className="min-h-screen bg-slate-50 dark:bg-slate-700 dark:text-white font-inter font-medium">
     <Header siteTitle="Health Checker" />
     <div className="min-h-adjusted w-4/5 pt-5 mx-auto">{content}</div>
     <Footer />

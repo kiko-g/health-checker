@@ -1,6 +1,6 @@
 import { InformationCircleIcon } from '@heroicons/react/outline'
 
-export default function Loading() {
+export default function ResultsLoading() {
   const Spinner = ({ color }) => (
     <svg
       className={`animate-spin -ml-1 mr-3 h-6 w-6 text-${color} dark:text-white`}
@@ -19,7 +19,7 @@ export default function Loading() {
 
   return (
     <>
-      <div className="flex items-center justify-between flex-wrap w-2/3 rounded bg-blue-100 text-bluegray-700 mx-auto my-4 py-2 px-4">
+      <div className="flex items-center justify-between flex-wrap w-2/3 rounded bg-blue-100 text-slate-700 mx-auto my-4 py-2 px-4">
         <div className="flex-1 flex items-center justify-between">
           <div className="flex">
             <InformationCircleIcon className="h-6 w-6" aria-hidden="true" />
@@ -31,7 +31,7 @@ export default function Loading() {
       </div>
       <div className="h-20 flex items-center justify-center mt-4">
         <span className="flex items-center justify-center px-4 py-2 font-semibold leading-6 text-xl rounded">
-          <Spinner color="bluegray-700" />
+          <Spinner color="slate-700" />
           Loading...
         </span>
       </div>

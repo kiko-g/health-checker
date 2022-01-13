@@ -2,42 +2,41 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import { SearchIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-export default function Search({ classnames }) {
+export default function Search({ classnames, width = '2/3', alternate = false }) {
   const [query, setQuery] = useState('')
   const [warning, setWarning] = useState(false)
 
-  useEffect(() => {
-    if (warning)
-      setTimeout(() => {
-        setWarning(!warning)
-      }, 3000)
-  }, [warning, setWarning])
-
   return (
     <div className={`w-full flex items-center justify-center ${classnames}`}>
-      <div className="w-124 m-2">
-        <div className="z-10 flex relative shadow-md rounded-xl bg-coolgray-100 border-gray-300">
+      <div className={`w-${width}`}>
+        <div className="w-full z-10 flex relative shadow-md rounded bg-gray-100 p-1">
           <input
             id="search-bar"
             type="search"
             name="search"
-            className="w-full text-lg text-gray-700 px-5 py-3 bg-coolgray-100 focus:bg-coolgray-50 focus:ring-teal-500 focus:border-teal-500 border-0 rounded-l-xl"
-            placeholder="Search"
+            className="w-full text-lg text-gray-700 px-5 py-3 bg-gray-100 focus:bg-white focus:ring-0 border-0 rounded-l"
+            placeholder={alternate ? 'Find something else...' : 'What are you looking for?'}
             onInput={(e) => setQuery(e.target.value)}
           />
-          <div className="p-3">
+          <div className={`self-center p-3 ${alternate ? '' : ''}`}>
             {query !== '' ? (
               <Link to={`/results/${query}`}>
-                <SearchButton />
+                <SearchButton alternate={alternate} />
               </Link>
             ) : (
-              <SearchButton onClick={() => setWarning(true)} />
+              <SearchButton
+                alternate={alternate}
+                onClick={() => {
+                  setWarning(true)
+                  setTimeout(() => setWarning(false), 4000)
+                }}
+              />
             )}
           </div>
         </div>
-        {warning ? <span className="ml-2 text-xs font-light text-red-400">Search query cannot be empty</span> : null}
+        {warning ? <span className="ml-2 text-sm font-light text-red-400">Search query cannot be empty</span> : null}
       </div>
     </div>
   )
@@ -47,11 +46,13 @@ Search.propTypes = {
   classnames: PropTypes.string,
 }
 
-const SearchButton = ({ onClick }) => (
+const SearchButton = ({ onClick, alternate = false }) => (
   <button
-    type="button"
+    type="submit"
     onClick={onClick}
-    className="bg-gradient-to-br from-teal-300 via-blue-300 to-purple-300 hover:opacity-80 duration-200 text-white p-3 rounded-full"
+    className={`bg-gradient-to-br from-teal-300 via-blue-300 to-purple-300 hover:opacity-80 duration-200 text-white rounded-full ${
+      alternate ? 'p-1.5 ml-1' : 'p-3'
+    }`}
   >
     <SearchIcon className="w-6 h-6" />
   </button>
