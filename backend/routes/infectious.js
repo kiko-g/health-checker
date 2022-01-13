@@ -228,11 +228,28 @@ router.get('/dbpedia/getAbstract/:searchTerm', async (req, res) => {
     var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
                         `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
                         `PREFIX dbo: <http://dbpedia.org/ontology/>\n` +
+                        `PREFIX dbp: <http://dbpedia.org/property/>\n` +
                         `select ?uri ?label ?abstract where { ` +
                         `   ?uri a dbo:Disease ; ` +
                         `   rdfs:label ?label . ` +
                         `   OPTIONAL { ` +
                         `       ?uri dbo:abstract ?abstract . ` +
+                        `   } ` +
+                        `   OPTIONAL { ` +
+                        `       ?uri dbp:complications ?complications . ` +
+                        `       FILTER (LANG ( ?complications) = 'en' ) ` +
+                        `   } ` +
+                        `   OPTIONAL { ` +
+                        `       ?uri dbp:causes ?causes . ` +
+                        `       FILTER (LANG ( ?causes) = 'en' ) ` +
+                        `   } ` +
+                        `   OPTIONAL { ` +
+                        `       ?uri dbp:symptoms ?symptoms . ` +
+                        `       FILTER (LANG ( ?symptoms) = 'en' ) ` +
+                        `   } ` +
+                        `   OPTIONAL { ` +
+                        `       ?uri dbp:treatment ?treatment . ` +
+                        `       FILTER (LANG ( ?treatment) = 'en' ) ` +
                         `   } ` +
                         `   FILTER (LANG ( ?label ) = 'en' ) ` +
                         `   FILTER (LANG ( ?abstract) = 'en' ) ` +
