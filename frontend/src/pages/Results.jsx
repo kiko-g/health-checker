@@ -14,6 +14,7 @@ import {
   ChevronUpIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  SpeakerphoneIcon,
 } from '@heroicons/react/outline'
 
 const axiosInstance = axios.create({
@@ -44,7 +45,8 @@ export default function Results() {
                 type="button"
                 onClick={() => {
                   setOverviewActive(true)
-                  setOverviewActiveItem()
+                  if (others) setOverviewActiveItem(results.ordered[index])
+                  else setOverviewActiveItem(results.detailed[index])
                 }}
                 className="capitalize font-medium text-sm tracking-wide duration-150
               text-slate-700 dark:text-white hover:text-blue-200 dark:hover:text-blue-100"
@@ -100,7 +102,9 @@ export default function Results() {
           })
 
           let pageArray = []
-          for (let i = 0; i < results.length / limit; i++) pageArray.push(i + 1)
+          if (others) {
+            for (let i = 0; i < results.length / limit; i++) pageArray.push(i + 1)
+          } else for (let i = 0; i < details.length / limit; i++) pageArray.push(i + 1)
           setPages(pageArray)
         })
       )
@@ -108,10 +112,11 @@ export default function Results() {
       .then(() => {
         setMounted(true)
       })
-  }, [query, limit])
+  }, [query, limit, others])
 
   const calculatePageLimits = () => {
-    if (page < 3 || pages.length < 5) return { start: 0, end: 5 }
+    if (page < 3 || pages.length < 5) return { start: 0, end: pages.length }
+    else if (page < 3 || pages.length > 5) return { start: 0, end: 5 }
     else return { start: page - 2, end: page + 3 }
   }
 
@@ -119,27 +124,29 @@ export default function Results() {
     <Layout>
       {mounted ? (
         overviewActive ? (
-          <div className="space-y-5 mb-5">
-            <div className="flex items-center justify-between space-x-2 ">
+          <div className="space-y-3 mb-5">
+            <div className="flex items-center justify-between space-x-2">
               <button
                 type="button"
                 onClick={() => setOverviewActive(false)}
-                className="flex hover:bg-white/50 rounded-full p-2 duration-150"
+                className="flex items-center justify-center p-2 px-2 rounded duration-150 border-2
+                bg-rose-100/50 border-rose-700/25 text-rose-700 hover:bg-rose-400 hover:text-white
+                dark:bg-rose-50 dark:border-rose-300/75 dark:text-rose-700 dark:hover:border-rose-400 dark:hover:bg-rose-400 dark:hover:text-white"
               >
-                <ArrowLeftIcon className="w-6 h-6 mr-1 p-0.5 text-slate-500 dark:text-slate-200" />
-                <span className="self-center text-sm">Go back</span>
+                <ArrowLeftIcon className="w-6 h-6 pr-2 py-1" />
+                <span className="self-center text-sm font-medium px-1">Go back</span>
               </button>
-              <h2 className="text-2xl text-sky-600 dark:text-sky-200 font-semibold tracking-wide">Disease Name</h2>
+              <h2 className="flex-1 flex items-center justify-end space-x-2 p-2 bg-blue-100 border-2 border-blue-300/50 text-slate-700 rounded capitalize">
+                <SpeakerphoneIcon className="h-6 w-6 p-0.5" aria-hidden="true" />
+                <span>{overviewActiveItem.label.value}</span>
+              </h2>
             </div>
-            <Highlight
-              styling={`border-2 shadow-md border-indigo-200 rounded-md`}
-              label="Definition"
-              definition="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor, lectus et euismod tristique, turpis arcu imperdiet arcu, at ullamcorper urna risus et lorem."
-            />
-            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-5 w-full">
+            <Highlight label="Definition" definition={overviewActiveItem.definition.value || 'None'} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 w-full">
               {[1, 2, 3, 4].map((item, index) => (
                 <Highlight
-                  styling={`border-2 shadow-md border-indigo-200 rounded-md`}
+                  key={`highlight-${index}`}
+                  styling={`border-2 shadow-md border-slate-200 rounded-md`}
                   label="Symptoms"
                   definition="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor, lectus et euismod tristique, turpis arcu imperdiet arcu, at ullamcorper urna risus et lorem."
                 />
@@ -275,7 +282,7 @@ export default function Results() {
                 type="button"
                 key={`page-button-next`}
                 onClick={() => setPage(page + 1)}
-                disabled={page > pages.length - 2}
+                disabled={page > pages.length - 1}
                 className="relative inline-flex items-center px-2 py-2 rounded-r-md
                 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50
                 disabled:cursor-not-allowed disabled:hover:bg-white"
