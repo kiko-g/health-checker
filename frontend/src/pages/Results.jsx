@@ -6,7 +6,7 @@ import QueryBanner from '../components/QueryBanner'
 import ResultsLoading from '../components/ResultsLoading'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Disclosure, Transition } from '@headlessui/react'
+import { Disclosure, Transition, Switch } from '@headlessui/react'
 import {
   ArrowLeftIcon,
   PlusIcon,
@@ -17,8 +17,7 @@ import {
 } from '@heroicons/react/outline'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:3000',
-  headers: { 'Access-Control-Allow-Origin': '*' },
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000',
 })
 
 export default function Results() {
@@ -50,11 +49,13 @@ export default function Results() {
               </button>
               <div className="self-center flex items-center justify-center space-x-2">
                 {detailed ? (
-                  <Disclosure.Button className="flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-100 h-4 w-4 animate-pulse">
-                    <ChevronUpIcon className={`${open ? 'transform rotate-180' : ''} w-4 h-4 text-slate-800`} />
+                  <Disclosure.Button
+                    className={`h-5 w-5 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-100 hover:opacity-80 duration-150`}
+                  >
+                    <ChevronUpIcon className={`w-4 h-4 text-slate-800 ${open ? 'transform rotate-180' : ''}`} />
                   </Disclosure.Button>
                 ) : null}
-                <span className={`rounded-full ${detailed ? 'bg-teal-400' : 'bg-amber-400'} h-4 w-4`}></span>
+                <span className={`rounded-full ${detailed ? 'bg-teal-400' : 'bg-amber-400'} h-5 w-5`}></span>
               </div>
             </div>
             {detailed ? (
@@ -101,7 +102,12 @@ export default function Results() {
       .then(() => {
         setMounted(true)
       })
-  }, [query, limit])
+  }, [query, limit, page])
+
+  const calculatePageLimits = () => {
+    if (page < 3 || pages.length < 5) return { start: 0, end: 4 }
+    else return { start: page - 2, end: page + 3 }
+  }
 
   return (
     <Layout>
@@ -137,9 +143,13 @@ export default function Results() {
         ) : (
           <div className="min-h-[calc(100vh-10rem)] flex flex-col justify-between mb-5">
             <div className="space-y-3 mb-5">
+              {/* Top bar */}
               <div className="flex space-x-4">
                 <QueryBanner query={query} />
-                <div className={`flex items-center bg-violet-100 text-slate-700 rounded mx-auto p-2 sm:px-4 lg:px-6`}>
+                <div
+                  className={`flex items-center bg-violet-100 text-slate-700 rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
+                >
+                  {/* Limit toggler */}
                   <div className="flex items-center justify-between flex-wrap -space-x-px">
                     <button
                       type="button"
@@ -169,9 +179,28 @@ export default function Results() {
                       <PlusIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
+                  {/* Type of results */}
+                  <div>
+                    <Switch
+                      checked={others}
+                      onChange={setOthers}
+                      className={`${
+                        others ? 'bg-teal-900' : 'bg-teal-700'
+                      } relative inline-flex flex-shrink-0 h-[38px] w-[74px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                    >
+                      <span className="sr-only">Use setting</span>
+                      <span
+                        aria-hidden="true"
+                        className={`${
+                          others ? 'translate-x-9' : 'translate-x-0'
+                        } pointer-events-none inline-block h-[34px] w-[34px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200`}
+                      />
+                    </Switch>
+                  </div>
                 </div>
               </div>
 
+              {/* Search bar */}
               <div className="flex justify-between">
                 <Search width="full" alternate={true} classnames="border-2 border-gray-100 rounded" />
               </div>
@@ -183,6 +212,7 @@ export default function Results() {
                         .slice((page - 1) * limit, page * limit)
                         .map((item, index) => (
                           <Result
+                            key={`results-all-${index}`}
                             index={index}
                             label={item.label.value}
                             definition={item.definition.value}
@@ -193,6 +223,7 @@ export default function Results() {
                         .slice((page - 1) * limit, page * limit)
                         .map((item, index) => (
                           <Result
+                            key={`results-premium-${index}`}
                             index={index}
                             label={item.label.value}
                             definition={item.definition.value}
@@ -209,6 +240,7 @@ export default function Results() {
             >
               <button
                 type="button"
+                key={`page-button-previous`}
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
                 className="relative inline-flex items-center px-2 py-2 rounded-l-md
@@ -218,35 +250,23 @@ export default function Results() {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {page.length > 10
-                ? pages.slice(page - 1, page + 9).map((item, index) => (
-                    <button
-                      type="button"
-                      onClick={() => setPage(item)}
-                      className={`${
-                        item === page
-                          ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                          : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                      } relative inline-flex items-center px-4 py-2 border text-sm font-medium`}
-                    >
-                      {item}
-                    </button>
-                  ))
-                : pages.map((item, index) => (
-                    <button
-                      type="button"
-                      onClick={() => setPage(item)}
-                      className={`${
-                        item === page
-                          ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                          : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                      } relative inline-flex items-center px-4 py-2 border text-sm font-medium`}
-                    >
-                      {item}
-                    </button>
-                  ))}
+              {pages.slice(calculatePageLimits().start, calculatePageLimits().end).map((item, index) => (
+                <button
+                  key={`page-button-${item}`}
+                  type="button"
+                  onClick={() => setPage(item)}
+                  className={`${
+                    item === page
+                      ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                      : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                  } relative inline-flex items-center px-4 py-2 border text-sm font-medium`}
+                >
+                  {item}
+                </button>
+              ))}
               <button
                 type="button"
+                key={`page-button-next`}
                 onClick={() => setPage(page + 1)}
                 disabled={page > pages.length - 2}
                 className="relative inline-flex items-center px-2 py-2 rounded-r-md
