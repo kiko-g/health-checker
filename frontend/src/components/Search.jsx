@@ -9,9 +9,13 @@ export default function Search({ classnames, width = '2/3', alternate = false })
   const [warning, setWarning] = useState(false)
 
   return (
-    <div className={`w-full flex items-center justify-center ${classnames}`}>
-      <div className={`w-${width}`}>
-        <div className="w-full z-10 flex relative shadow-md rounded bg-white p-1">
+    <div
+      className={`w-full flex items-center justify-center ${
+        alternate ? 'border border-slate-300/75' : 'shadow-md'
+      } ${classnames}`}
+    >
+      <div className={`w-${width} ${alternate ? '' : 'shadow-md'}`}>
+        <div className="w-full z-10 flex relative rounded bg-white p-1">
           <input
             id="search-bar"
             type="search"

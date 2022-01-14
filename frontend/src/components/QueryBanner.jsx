@@ -6,7 +6,7 @@ export default function QueryBanner({ query }) {
   const [dismiss, setDismiss] = useState(false)
 
   return (
-    <div className={`flex-1 bg-blue-100 text-slate-700 rounded ${dismiss ? 'hidden' : ''}`}>
+    <div className={`flex-1 bg-blue-100 border-2 border-blue-300/50 text-slate-700 rounded ${dismiss ? 'hidden' : ''}`}>
       <div className="mx-auto p-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
@@ -28,7 +28,7 @@ export default function QueryBanner({ query }) {
             <button
               type="button"
               onClick={() => setDismiss(true)}
-              className="flex p-2 rounded hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2 duration-100"
+              className="flex p-2 rounded bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2 duration-200"
             >
               <span className="sr-only">Dismiss</span>
               <XIcon className="h-6 w-6" aria-hidden="true" />

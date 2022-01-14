@@ -20,7 +20,7 @@ const HomeLayout = ({ content }) => (
 const PageLayout = ({ content }) => (
   <div className="min-h-screen bg-slate-50 dark:bg-slate-700 dark:text-white font-inter font-medium">
     <Header siteTitle="Health Checker" />
-    <div className="min-h-adjusted w-5/6 pt-5 mx-auto">{content}</div>
+    <div className="min-h-adjusted p-4 mx-auto w-full xl:w-5/6">{content}</div>
     <Footer />
   </div>
 )

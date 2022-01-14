@@ -24,11 +24,12 @@ export default function Results() {
   const { query } = useParams()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState([])
-  const [limit, setLimit] = useState(9)
-  const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
+  const [limit, setLimit] = useState(12)
   const [others, setOthers] = useState(true)
   const [mounted, setMounted] = useState(false)
   const [overviewActive, setOverviewActive] = useState(false)
+  const [overviewActiveItem, setOverviewActiveItem] = useState(null)
+  const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
 
   const Result = ({ index, label = '', definition = '', detailed = true }) => (
     <div
@@ -41,7 +42,10 @@ export default function Results() {
             <div className="flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => setOverviewActive(true)}
+                onClick={() => {
+                  setOverviewActive(true)
+                  setOverviewActiveItem()
+                }}
                 className="capitalize font-medium text-sm tracking-wide duration-150
               text-slate-700 dark:text-white hover:text-blue-200 dark:hover:text-blue-100"
               >
@@ -87,12 +91,14 @@ export default function Results() {
           let results = responses[0].data.results.bindings
           let details = results.filter((item) => item.definition.value !== undefined)
           let nodetails = results.filter((item) => item.definition.value === undefined)
+
           setResults({
             default: results,
             ordered: [...details, ...nodetails],
             detailed: details,
             undetailed: nodetails,
           })
+
           let pageArray = []
           for (let i = 0; i < results.length / limit; i++) pageArray.push(i + 1)
           setPages(pageArray)
@@ -102,10 +108,10 @@ export default function Results() {
       .then(() => {
         setMounted(true)
       })
-  }, [query, limit, page])
+  }, [query, limit])
 
   const calculatePageLimits = () => {
-    if (page < 3 || pages.length < 5) return { start: 0, end: 4 }
+    if (page < 3 || pages.length < 5) return { start: 0, end: 5 }
     else return { start: page - 2, end: page + 3 }
   }
 
@@ -146,8 +152,9 @@ export default function Results() {
               {/* Top bar */}
               <div className="flex space-x-4">
                 <QueryBanner query={query} />
+                {/* Purple Settings */}
                 <div
-                  className={`flex items-center bg-violet-100 text-slate-700 rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
+                  className={`flex items-center bg-violet-100 border-2 border-violet-300/60 text-slate-700 rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
                 >
                   {/* Limit toggler */}
                   <div className="flex items-center justify-between flex-wrap -space-x-px">
