@@ -6,7 +6,7 @@ export default function QueryBanner({ query }) {
   const [dismiss, setDismiss] = useState(false)
 
   return (
-    <div className={`bg-blue-100 text-slate-700 rounded ${dismiss ? 'hidden' : ''}`}>
+    <div className={`flex-1 bg-blue-100 text-slate-700 rounded ${dismiss ? 'hidden' : ''}`}>
       <div className="mx-auto p-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
