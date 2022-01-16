@@ -4,7 +4,6 @@ import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import PropTypes from 'prop-types'
 import DarkModeSwitch from './DarkModeSwitch'
-import useDarkMode from '../hooks/useDarkMode'
 
 export default function Header({ siteTitle }) {
   return (
@@ -125,8 +124,6 @@ const MobileView = () => (
 )
 
 const Logo = (props) => {
-  const [darkTheme] = useDarkMode()
-
   return (
     <svg
       fill="#fff"

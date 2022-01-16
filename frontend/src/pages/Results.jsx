@@ -157,11 +157,13 @@ export default function Results() {
           <div className="min-h-[calc(100vh-10rem)] flex flex-col justify-between mb-5">
             <div className="space-y-3 mb-5">
               {/* Top bar */}
-              <div className="flex space-x-4">
-                <QueryBanner query={query} />
+              <div className="grid grid-cols-12 gap-2">
+                <QueryBanner query={query} classnames="col-span-12 xl:col-span-8" />
                 {/* Purple Settings */}
                 <div
-                  className={`flex items-center bg-violet-100 border-2 border-violet-300/60 text-slate-700 rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
+                  className={`col-span-12 w-full xl:col-span-4 flex items-center justify-between
+                  bg-violet-100 border-2 border-violet-300/60 text-slate-700
+                  rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
                 >
                   {/* Limit toggler */}
                   <div className="flex items-center justify-between flex-wrap -space-x-px">
@@ -169,7 +171,7 @@ export default function Results() {
                       type="button"
                       disabled={limit <= 3}
                       onClick={() => setLimit(limit - 3)}
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md
+                      className="relative h-10 inline-flex items-center px-2 py-2 rounded-l-md
                           border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50
                           disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
@@ -179,14 +181,14 @@ export default function Results() {
                     <span
                       type="button"
                       className="bg-white border-gray-300 text-gray-500
-                        relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                        relative h-10 inline-flex items-center px-4 py-2 border text-sm font-medium"
                     >
                       {limit}
                     </span>
                     <button
                       type="button"
                       onClick={() => setLimit(limit + 3)}
-                      className="relative inline-flex items-center px-2 py-2 rounded-r-md
+                      className="relative h-10 inline-flex items-center px-2 py-2 rounded-r-md
                           border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50
                           disabled:cursor-not-allowed disabled:hover:bg-white"
                     >
@@ -194,22 +196,29 @@ export default function Results() {
                     </button>
                   </div>
                   {/* Type of results */}
-                  <div>
-                    <Switch
-                      checked={others}
-                      onChange={setOthers}
-                      className={`${
-                        others ? 'bg-teal-900' : 'bg-teal-700'
-                      } relative inline-flex flex-shrink-0 h-[38px] w-[74px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-                    >
-                      <span className="sr-only">Use setting</span>
-                      <span
-                        aria-hidden="true"
+                  <div
+                    className="flex items-center border border-gray-300 bg-white 
+                    h-10 p-2 space-x-1 rounded"
+                  >
+                    <Switch.Group>
+                      <Switch.Label className="self-center w-12 text-xxs" passive>
+                        Toggle Results
+                      </Switch.Label>
+                      <Switch
+                        checked={others}
+                        onChange={setOthers}
                         className={`${
-                          others ? 'translate-x-9' : 'translate-x-0'
-                        } pointer-events-none inline-block h-[34px] w-[34px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200`}
-                      />
-                    </Switch>
+                          others ? 'bg-amber-400' : 'bg-teal-500'
+                        } relative inline-flex items-center h-6 rounded-full w-11`}
+                      >
+                        <span className="sr-only">Enable notifications</span>
+                        <span
+                          className={`transform transition ease-in-out duration-200 ${
+                            others ? 'translate-x-6' : 'translate-x-1'
+                          } inline-block w-4 h-4 transform bg-white rounded-full`}
+                        />
+                      </Switch>
+                    </Switch.Group>
                   </div>
                 </div>
               </div>
