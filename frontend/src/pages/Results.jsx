@@ -4,7 +4,7 @@ import Search from '../components/Search'
 import Highlight from '../components/Highlight'
 import QueryBanner from '../components/QueryBanner'
 import ResultsLoading from '../components/ResultsLoading'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Disclosure, Transition, Switch } from '@headlessui/react'
 import {
@@ -29,7 +29,15 @@ export default function Results() {
   const [others, setOthers] = useState(true)
   const [mounted, setMounted] = useState(false)
   const [overviewActive, setOverviewActive] = useState(false)
+  const [overviewMounted, setOverviewMounted] = useState(false)
   const [overviewActiveItem, setOverviewActiveItem] = useState(null)
+  const [overviewDisplayItem, setOverviewDisplayItem] = useState({
+    abstract: '',
+    causes: '',
+    symptoms: '',
+    treatment: '',
+    complications: '',
+  })
   const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
 
   const Result = ({ index, label = '', definition = '', detailed = true }) => (
@@ -85,7 +93,10 @@ export default function Results() {
   )
 
   useEffect(() => {
-    let requests = [axiosInstance.get(`/infectious/bioportal/search/${query}`)]
+    let requests = [
+      axiosInstance.get(`/infectious/bioportal/search/${query}`),
+      axiosInstance.get(`/infectious/dbpedia/getAbstract/${query}`),
+    ]
     axios
       .all(requests)
       .then(
@@ -109,14 +120,50 @@ export default function Results() {
         })
       )
       .catch((errors) => console.error(errors))
-      .then(() => {
-        setMounted(true)
-      })
+      .then(() => setMounted(true))
   }, [query, limit, others])
 
+  useEffect(() => {
+    if (overviewActiveItem === null) return null
+    const label = overviewActiveItem.label.value
+    const uri = overviewActiveItem.uri.value
+    const doid = uri.split('DOID_')[1]
+
+    let requests = [axiosInstance.get(`/infectious/dbpedia/getAbstract/${label}`)]
+    axios
+      .all(requests)
+      .then(
+        axios.spread((...responses) => {
+          let results = responses[0].data.results.bindings
+          let abstract = 'No abstract found'
+          let causes = 'No causes found'
+          let symptoms = 'No symptoms found'
+          let treatment = 'No treatment found'
+          let complications = 'No complications found'
+
+          if (results.length !== 0) {
+            if (results[0].abstract) abstract = results[0].abstract.value
+            if (results[0].causes) causes = results[0].causes.value
+            if (results[0].symptoms) symptoms = results[0].symptoms.value
+            if (results[0].treatment) treatment = results[0].treatment.value
+            if (results[0].complications) complications = results[0].complications.value
+          }
+
+          setOverviewDisplayItem({
+            abstract: abstract,
+            causes: causes,
+            symptoms: symptoms,
+            treatment: treatment,
+            complications: complications,
+          })
+        })
+      )
+      .catch((errors) => console.error(errors))
+      .then(() => setOverviewMounted(true))
+  }, [overviewActiveItem])
+
   const calculatePageLimits = () => {
-    if (page < 3 || pages.length < 5) return { start: 0, end: pages.length }
-    else if (page < 3 || pages.length > 5) return { start: 0, end: 5 }
+    if (page < 3 || pages.length < 5) return { start: 0, end: 5 }
     else return { start: page - 2, end: page + 3 }
   }
 
@@ -124,35 +171,44 @@ export default function Results() {
     <Layout>
       {mounted ? (
         overviewActive ? (
-          <div className="space-y-3 mb-5">
-            <div className="flex items-center justify-between space-x-2">
-              <button
-                type="button"
-                onClick={() => setOverviewActive(false)}
-                className="flex items-center justify-center p-2 px-2 rounded duration-150 border-2
+          overviewMounted ? (
+            <div className="space-y-3 mb-5">
+              <div className="flex items-center justify-between space-x-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOverviewActive(false)
+                    setOverviewMounted(false)
+                  }}
+                  className="flex items-center justify-center p-2 px-2 rounded duration-150 border-2
                 bg-rose-100/50 border-rose-700/25 text-rose-700 hover:bg-rose-400 hover:text-white
                 dark:bg-rose-50 dark:border-rose-300/75 dark:text-rose-700 dark:hover:border-rose-400 dark:hover:bg-rose-400 dark:hover:text-white"
-              >
-                <ArrowLeftIcon className="w-6 h-6 pr-2 py-1" />
-                <span className="self-center text-sm font-medium px-1">Go back</span>
-              </button>
-              <h2 className="flex-1 flex items-center justify-end space-x-2 p-2 bg-blue-100 border-2 border-blue-300/50 text-slate-700 rounded capitalize">
-                <SpeakerphoneIcon className="h-6 w-6 p-0.5" aria-hidden="true" />
-                <span>{overviewActiveItem.label.value}</span>
-              </h2>
+                >
+                  <ArrowLeftIcon className="w-6 h-6 pr-2 py-1" />
+                  <span className="self-center text-sm font-medium px-1">Go back</span>
+                </button>
+                <h2 className="flex-1 flex items-center justify-end space-x-2 p-2 bg-blue-100 border-2 border-blue-300/50 text-slate-700 rounded capitalize">
+                  <SpeakerphoneIcon className="h-6 w-6 p-0.5" aria-hidden="true" />
+                  <span>{overviewActiveItem.label.value}</span>
+                </h2>
+              </div>
+
+              <Highlight label="Abstract" definition={overviewDisplayItem.abstract || 'None'} />
+              <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 w-full">
+                {Object.keys(overviewDisplayItem)
+                  .filter((spec) => spec !== 'abstract')
+                  .map((spec, specIdx) => (
+                    <Highlight
+                      key={`${overviewActiveItem.label.value}-${spec}`}
+                      label={spec}
+                      definition={overviewDisplayItem[spec]}
+                    />
+                  ))}
+              </div>
             </div>
-            <Highlight label="Definition" definition={overviewActiveItem.definition.value || 'None'} />
-            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 w-full">
-              {[1, 2, 3, 4].map((item, index) => (
-                <Highlight
-                  key={`highlight-${index}`}
-                  styling={`border-2 shadow-md border-slate-200 rounded-md`}
-                  label="Symptoms"
-                  definition="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor, lectus et euismod tristique, turpis arcu imperdiet arcu, at ullamcorper urna risus et lorem."
-                />
-              ))}
-            </div>
-          </div>
+          ) : (
+            <ResultsLoading />
+          )
         ) : (
           <div className="min-h-[calc(100vh-10rem)] flex flex-col justify-between mb-5">
             <div className="space-y-3 mb-5">

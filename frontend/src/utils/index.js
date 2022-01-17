@@ -7,5 +7,3 @@
 //   bioportalSubclass: `/infectious/bioportal/getSubClasses/${doid}`,
 //   dbpediaAbstract: `/infectious/dbpedia/getAbstract/${query}`,
 // }
-
-// const doid = 'http://purl.obolibrary.org/obo/DOID_8514'.split('DOID_')[1]

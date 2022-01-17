@@ -26,12 +26,7 @@ export default function Search({ classnames, width = '2/3', alternate = false })
           />
           <div className={`self-center ${alternate ? '' : 'p-3'}`}>
             {query !== '' ? (
-              <Link
-                to={`/results/${query}`}
-                onClick={() => {
-                  if (alternate) window.location.reload()
-                }}
-              >
+              <Link to={`/results/${query}`} onClick={() => {}}>
                 <SearchButton alternate={alternate} />
               </Link>
             ) : (
