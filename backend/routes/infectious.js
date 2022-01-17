@@ -105,6 +105,7 @@ router.get('/bioportal/search/:searchTerm', async (req, res) => {
                         `           ?uri rdfs:subClassOf ?superclass_uri . ` +
                         `           ?superclass_uri rdfs:label ?superclass_label . ` +
                         `       }` +
+                        `       MINUS{?subclass rdfs:subClassOf ?uri .}` +
                         `       FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
                         `   }` +
                         `} ORDER BY ASC(?label)`;
@@ -229,7 +230,7 @@ router.get('/dbpedia/getAbstract/:searchTerm', async (req, res) => {
                         `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
                         `PREFIX dbo: <http://dbpedia.org/ontology/>\n` +
                         `PREFIX dbp: <http://dbpedia.org/property/>\n` +
-                        `select ?uri ?label ?abstract where { ` +
+                        `select ?uri ?label ?abstract ?complications ?causes ?symptoms ?treatment where { ` +
                         `   ?uri a dbo:Disease ; ` +
                         `   rdfs:label ?label . ` +
                         `   OPTIONAL { ` +
@@ -251,9 +252,13 @@ router.get('/dbpedia/getAbstract/:searchTerm', async (req, res) => {
                         `       ?uri dbp:treatment ?treatment . ` +
                         `       FILTER (LANG ( ?treatment) = 'en' ) ` +
                         `   } ` +
+                        `OPTIONAL {` +
+                        `    ?uri dbp:synonyms ?syn .` +
+                        `    FILTER (LANG ( ?syn) = 'en' )` +
+                        `}` +
                         `   FILTER (LANG ( ?label ) = 'en' ) ` +
                         `   FILTER (LANG ( ?abstract) = 'en' ) ` +
-                        `   FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
+                        `   FILTER (regex(UCASE(?label), UCASE("${req.params.searchTerm}")) || regex(UCASE(?syn), UCASE("${req.params.searchTerm}"))) . ` +
                         `} ORDER BY ASC(?label)`; 
 
     await axios({
