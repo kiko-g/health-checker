@@ -133,14 +133,15 @@ router.get('/bioportal/getClass/:uri', async (req, res) => {
     var query_string =  `PREFIX owl:  <http://www.w3.org/2002/07/owl#>\n` +
                         `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
                         `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
-                        `SELECT ?label ?definition ?superclass WHERE { ` +
+                        `SELECT ?label ?definition ?superclass_uri ?superclass_label WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
                         `       <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> rdfs:label ?label . ` +
                         `       OPTIONAL { ` +
                         `           <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> obo:def ?definition . ` +
                         `       }` +
                         `       OPTIONAL { ` +
-                        `           <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> rdfs:subClassOf ?superclass . ` +
+                        `           <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> rdfs:subClassOf ?superclass_uri . ` +
+                        `           ?superclass_uri rdfs:label ?superclass_label . ` +
                         `       }` +
                         `   }` +
                         `}`;
@@ -199,9 +200,10 @@ router.get('/bioportal/getSubClasses/:uri', async (req, res) => {
                         `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n` +
                         `PREFIX obo: <http://purl.obolibrary.org/obo/>\n` +
                         `PREFIX goobo: <http://www.geneontology.org/formats/oboInOWL#>\n` +
-                        `SELECT ?subclass WHERE { ` +
+                        `SELECT ?subclass_uri ?subclass_label WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
-                        `       ?subclass rdfs:subClassOf <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> . ` +
+                        `       ?subclass_uri rdfs:subClassOf <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> . ` +
+                        `       ?subclass_uri rdfs:label ?superclass_label .` +
                         `   }` +
                         `}`;
 
