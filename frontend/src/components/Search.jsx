@@ -4,7 +4,7 @@ import { SearchIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-export default function Search({ classnames, width = '2/3', alternate = false }) {
+export default function Search({ classnames, width = '2/3', alternate = false, setMounted }) {
   const [query, setQuery] = useState('')
   const [warning, setWarning] = useState(false)
 
@@ -26,7 +26,12 @@ export default function Search({ classnames, width = '2/3', alternate = false })
           />
           <div className={`self-center ${alternate ? '' : 'p-3'}`}>
             {query !== '' ? (
-              <Link to={`/results/${query}`} onClick={() => {}}>
+              <Link
+                to={`/results/${query}`}
+                onClick={() => {
+                  setMounted(false)
+                }}
+              >
                 <SearchButton alternate={alternate} />
               </Link>
             ) : (

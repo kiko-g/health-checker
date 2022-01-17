@@ -19,7 +19,7 @@ export default function ResultsLoading() {
 
   return (
     <>
-      <div className="flex items-center justify-between flex-wrap w-2/3 rounded bg-blue-100 text-slate-700 mx-auto my-4 py-2 px-4">
+      <div className="flex items-center justify-between flex-wrap rounded bg-amber-50 border-2 border-amber-300/60 text-slate-700 mx-auto my-4 p-4">
         <div className="flex-1 flex items-center justify-between">
           <div className="flex">
             <InformationCircleIcon className="h-6 w-6" aria-hidden="true" />

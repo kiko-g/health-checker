@@ -4,7 +4,7 @@ import Search from '../components/Search'
 import Highlight from '../components/Highlight'
 import QueryBanner from '../components/QueryBanner'
 import ResultsLoading from '../components/ResultsLoading'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Disclosure, Transition, Switch } from '@headlessui/react'
 import {
@@ -27,10 +27,12 @@ export default function Results() {
   const [pages, setPages] = useState([])
   const [limit, setLimit] = useState(12)
   const [others, setOthers] = useState(true)
+  const [ordered, setOrdered] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [overviewActive, setOverviewActive] = useState(false)
   const [overviewMounted, setOverviewMounted] = useState(false)
   const [overviewActiveItem, setOverviewActiveItem] = useState(null)
+  const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
   const [overviewDisplayItem, setOverviewDisplayItem] = useState({
     abstract: '',
     causes: '',
@@ -38,9 +40,8 @@ export default function Results() {
     treatment: '',
     complications: '',
   })
-  const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
 
-  const Result = ({ index, label = '', definition = '', detailed = true }) => (
+  const Result = ({ index, label = '', definition = '', detailed = true, exact = false }) => (
     <div
       className="relative p-3 shadow rounded-md bg-white dark:bg-slate-500 space-y-1"
       key={`result-detailed-${index}`}
@@ -62,6 +63,16 @@ export default function Results() {
                 {label}
               </button>
               <div className="self-center flex items-center justify-center space-x-2">
+                {exact ? (
+                  <>
+                    <div
+                      className={`px-1.5 py-0.5 text-xs lowercase rounded-xl border-2 bg-purple-100 border-violet-300/60 text-slate-700`}
+                    >
+                      Exact match
+                    </div>
+                    <span className={`rounded-full ${exact ? 'bg-purple-400' : ''} h-5 w-5`}></span>
+                  </>
+                ) : null}
                 {detailed ? (
                   <Disclosure.Button
                     className={`h-5 w-5 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-100 hover:opacity-80 duration-150`}
@@ -69,14 +80,11 @@ export default function Results() {
                     <ChevronUpIcon className={`w-4 h-4 text-slate-800 ${open ? 'transform rotate-180' : ''}`} />
                   </Disclosure.Button>
                 ) : null}
-                <span className={`rounded-full ${detailed ? 'bg-teal-400' : 'bg-amber-400'} h-5 w-5`}></span>
+                <span className={`rounded-full ${detailed ? 'bg-teal-400' : 'bg-orange-300'} h-5 w-5`}></span>
               </div>
             </div>
             {detailed ? (
               <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
                 leave="transition duration-75 ease-out"
                 leaveFrom="transform scale-100 opacity-100"
                 leaveTo="transform scale-95 opacity-0"
@@ -101,13 +109,17 @@ export default function Results() {
       .all(requests)
       .then(
         axios.spread((...responses) => {
-          let results = responses[0].data.results.bindings
+          let raw = responses[0].data.results.bindings
+          let exact = raw.find((entry) => entry.label.value.toLowerCase() === query.toLowerCase())
+          raw.splice(raw.indexOf(exact), 1)
+
+          let results = [exact].concat(raw)
           let details = results.filter((item) => item.definition.value !== undefined)
           let nodetails = results.filter((item) => item.definition.value === undefined)
 
           setResults({
             default: results,
-            ordered: [...details, ...nodetails],
+            ordered: ordered ? [...details, ...nodetails] : results,
             detailed: details,
             undetailed: nodetails,
           })
@@ -121,13 +133,13 @@ export default function Results() {
       )
       .catch((errors) => console.error(errors))
       .then(() => setMounted(true))
-  }, [query, limit, others])
+  }, [query, limit, others, ordered])
 
   useEffect(() => {
     if (overviewActiveItem === null) return null
     const label = overviewActiveItem.label.value
-    const uri = overviewActiveItem.uri.value
-    const doid = uri.split('DOID_')[1]
+    // const uri = overviewActiveItem.uri.value
+    // const doid = uri.split('DOID_')[1]
 
     let requests = [axiosInstance.get(`/infectious/dbpedia/getAbstract/${label}`)]
     axios
@@ -193,15 +205,15 @@ export default function Results() {
                 </h2>
               </div>
 
-              <Highlight label="Abstract" definition={overviewDisplayItem.abstract || 'None'} />
+              <Highlight header="Abstract" text={overviewDisplayItem.abstract || 'No abstract found'} />
               <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 w-full">
                 {Object.keys(overviewDisplayItem)
                   .filter((spec) => spec !== 'abstract')
                   .map((spec, specIdx) => (
                     <Highlight
-                      key={`${overviewActiveItem.label.value}-${spec}`}
-                      label={spec}
-                      definition={overviewDisplayItem[spec]}
+                      header={spec}
+                      key={`${overviewActiveItem.label.value}-${spec}-${specIdx}`}
+                      text={overviewDisplayItem[spec] || `No ${spec} found`}
                     />
                   ))}
               </div>
@@ -214,10 +226,10 @@ export default function Results() {
             <div className="space-y-3 mb-5">
               {/* Top bar */}
               <div className="grid grid-cols-12 gap-2">
-                <QueryBanner query={query} classnames="col-span-12 xl:col-span-8" />
+                <QueryBanner query={query} classnames="col-span-12 xl:col-span-6 2xl:col-span-8" />
                 {/* Purple Settings */}
                 <div
-                  className={`col-span-12 w-full xl:col-span-4 flex items-center justify-between
+                  className={`col-span-12 w-full xl:col-span-6 2xl:col-span-4 flex items-center justify-between
                   bg-violet-100 border-2 border-violet-300/60 text-slate-700
                   rounded space-x-2 mx-auto p-2 sm:px-4 lg:px-6`}
                 >
@@ -251,20 +263,21 @@ export default function Results() {
                       <PlusIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
-                  {/* Type of results */}
+
+                  {/* Results bioportal definition toggler */}
                   <div
                     className="flex items-center border border-gray-300 bg-white 
                     h-10 p-2 space-x-1 rounded"
                   >
                     <Switch.Group>
-                      <Switch.Label className="self-center w-12 text-xxs" passive>
-                        Toggle Results
+                      <Switch.Label className="self-center w-min text-xs" passive>
+                        Definition
                       </Switch.Label>
                       <Switch
                         checked={others}
                         onChange={setOthers}
                         className={`${
-                          others ? 'bg-amber-400' : 'bg-teal-500'
+                          others ? 'bg-orange-300' : 'bg-teal-400'
                         } relative inline-flex items-center h-6 rounded-full w-11`}
                       >
                         <span className="sr-only">Enable notifications</span>
@@ -276,12 +289,43 @@ export default function Results() {
                       </Switch>
                     </Switch.Group>
                   </div>
+
+                  {/* Results default order toggler */}
+                  <div
+                    className="flex items-center border border-gray-300 bg-white 
+                    h-10 p-2 space-x-1 rounded"
+                  >
+                    <Switch.Group>
+                      <Switch.Label className="self-center w-min text-xs" passive>
+                        Order
+                      </Switch.Label>
+                      <Switch
+                        checked={ordered}
+                        onChange={setOrdered}
+                        className={`${
+                          ordered ? 'bg-rose-400' : 'bg-blue-400'
+                        } relative inline-flex items-center h-6 rounded-full w-11`}
+                      >
+                        <span className="sr-only">Enable notifications</span>
+                        <span
+                          className={`transform transition ease-in-out duration-200 ${
+                            ordered ? 'translate-x-6' : 'translate-x-1'
+                          } inline-block w-4 h-4 transform bg-white rounded-full`}
+                        />
+                      </Switch>
+                    </Switch.Group>
+                  </div>
                 </div>
               </div>
 
               {/* Search bar */}
               <div className="flex justify-between">
-                <Search width="full" alternate={true} classnames="border-2 border-gray-100 rounded" />
+                <Search
+                  width="full"
+                  alternate={true}
+                  setMounted={setMounted}
+                  classnames="border-2 border-gray-100 rounded"
+                />
               </div>
 
               <div>
@@ -296,6 +340,7 @@ export default function Results() {
                             label={item.label.value}
                             definition={item.definition.value}
                             detailed={item.definition.value !== undefined}
+                            exact={item.label.value.toLowerCase() === query.toLowerCase()}
                           />
                         ))
                     : results.detailed
@@ -307,6 +352,7 @@ export default function Results() {
                             label={item.label.value}
                             definition={item.definition.value}
                             detailed={item.definition.value !== undefined}
+                            exact={item.label.value.toLowerCase() === query.toLowerCase()}
                           />
                         ))}
                 </div>

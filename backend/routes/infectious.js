@@ -105,7 +105,7 @@ router.get('/bioportal/search/:searchTerm', async (req, res) => {
                         `           ?uri rdfs:subClassOf ?superclass_uri . ` +
                         `           ?superclass_uri rdfs:label ?superclass_label . ` +
                         `       }` +
-                        `       MINUS{?subclass rdfs:subClassOf ?uri .}` +
+                        // `       MINUS{?subclass rdfs:subClassOf ?uri .}` +
                         `       FILTER regex(UCASE(?label), UCASE("${req.params.searchTerm}")) . ` +
                         `   }` +
                         `} ORDER BY ASC(?label)`;
