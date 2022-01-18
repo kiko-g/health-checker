@@ -29,7 +29,7 @@ export default function Search({ classnames, width = '2/3', alternate = false, s
               <Link
                 to={`/results/${query}`}
                 onClick={() => {
-                  setMounted(false)
+                  if (alternate) setMounted(false)
                 }}
               >
                 <SearchButton alternate={alternate} />

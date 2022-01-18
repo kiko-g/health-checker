@@ -10,7 +10,7 @@ export default function Header({ siteTitle }) {
     <Disclosure
       as="nav"
       className="
-      bg-gradient-to-bl from-slate-600 via-slate-600 to-slate-600
+      bg-gradient-to-bl from-teal-500/50 via-teal-500/50 to-teal-500/50
       dark:bg-gradient-to-bl dark:from-slate-700 dark:via-slate-700 dark:to-slate-700
       text-slate-700 dark:bg-slate-600 dark:text-white space-x-4 shadow-md"
     >

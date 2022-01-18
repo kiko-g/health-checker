@@ -203,7 +203,7 @@ router.get('/bioportal/getSubClasses/:uri', async (req, res) => {
                         `SELECT ?subclass_uri ?subclass_label WHERE { ` +
                         `   GRAPH <http://bioportal.bioontology.org/ontologies/DOID> { ` +
                         `       ?subclass_uri rdfs:subClassOf <http://purl.obolibrary.org/obo/DOID_${req.params.uri}> . ` +
-                        `       ?subclass_uri rdfs:label ?superclass_label .` +
+                        `       ?subclass_uri rdfs:label ?subclass_label .` +
                         `   }` +
                         `}`;
 
