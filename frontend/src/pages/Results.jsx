@@ -28,7 +28,7 @@ export default function Results() {
   const [synonyms, setSynonyms] = useState([])
   const [subclasses, setSubclasses] = useState([])
   const [seeAlsoSynonyms, setSeeAlsoSynonyms] = useState([])
-  const [seeAlsosubclasses, setSeeAlsoSubclasses] = useState([])
+  const [seeAlsoSubclasses, setSeeAlsoSubclasses] = useState([])
   const [results, setResults] = useState({ all: [], ordered: [], detailed: [], undetailed: [] })
 
   const [seeAlsoMounted, setSeeAlsoMounted] = useState(false)
@@ -326,9 +326,7 @@ export default function Results() {
                   setOverviewMounted(false)
                   setOverviewActiveItem(null)
                 }}
-                className="h-12 flex items-center justify-center p-3 px-2 rounded duration-150 border-2
-                bg-rose-100/50 border-rose-700/25 text-rose-700 hover:bg-rose-400 hover:text-white
-                dark:bg-rose-50 dark:border-rose-300/75 dark:text-rose-700 dark:hover:border-rose-400 dark:hover:bg-rose-400 dark:hover:text-white"
+                className="h-12 flex items-center justify-center p-3 px-2 rounded duration-150 border-2 go-back"
               >
                 <ArrowLeftIcon className="w-6 h-6 pr-2 py-1" />
                 <span className="self-center font-medium px-1">Go back</span>
@@ -341,8 +339,8 @@ export default function Results() {
               </div>
 
               {overviewActiveItem.superclass_label.value ? (
-                <div className="h-12 flex items-center justify-start space-x-2 px-3 py-2 bg-amber-100 border-2 border-amber-300/50 rounded">
-                  <h2 className="text-xxs sm:text-xs md:text-base lg:text-lg 2xl:text-xl text-amber-700">
+                <div className="h-12 flex items-center justify-start space-x-2 px-3 py-2 bg-purple-100 border-2 border-purple-300/50 rounded">
+                  <h2 className="text-xxs sm:text-xs md:text-base lg:text-lg 2xl:text-xl text-purple-900">
                     Belongs to&nbsp;
                     <span className="font-bold capitalize">{overviewActiveItem.superclass_label.value}</span>
                   </h2>
@@ -451,9 +449,7 @@ export default function Results() {
                   setSeeAlsoMounted(false)
                   setSeeAlsoActiveItem(null)
                 }}
-                className="h-12 flex items-center justify-center p-3 px-2 rounded duration-150 border-2
-                bg-rose-100/50 border-rose-700/25 text-rose-700 hover:bg-rose-400 hover:text-white
-                dark:bg-rose-50 dark:border-rose-300/75 dark:text-rose-700 dark:hover:border-rose-400 dark:hover:bg-rose-400 dark:hover:text-white"
+                className="h-12 flex items-center justify-center p-3 px-2 rounded duration-150 border-2 go-back"
               >
                 <ArrowLeftIcon className="w-6 h-6 pr-2 py-1" />
                 <span className="self-center font-medium px-1">Go back</span>
@@ -466,8 +462,8 @@ export default function Results() {
               </div>
 
               {seeAlsoActiveItem.superclass_label.value ? (
-                <div className="h-12 flex items-center justify-start space-x-2 px-3 py-2 bg-amber-100 border-2 border-amber-300/50 rounded">
-                  <h2 className="text-xxs sm:text-xs md:text-base lg:text-lg 2xl:text-xl text-amber-700">
+                <div className="h-12 flex items-center justify-start space-x-2 px-3 py-2 bg-purple-100 border-2 border-purple-300/50 rounded">
+                  <h2 className="text-xxs sm:text-xs md:text-base lg:text-lg 2xl:text-xl text-purple-900">
                     Belongs to&nbsp;
                     <span className="font-bold capitalize">{seeAlsoActiveItem.superclass_label.value}</span>
                   </h2>
@@ -495,6 +491,71 @@ export default function Results() {
                     text={seeAlsoDisplayItem[spec] || `No ${spec} found`}
                   />
                 ))}
+            </div>
+
+            {/* See also (subclasses of subclasses) */}
+            <div className={`px-4 py-3 bg-white space-y-1 shadow rounded border-2 border-slate-300/60`}>
+              <Disclosure defaultOpen={true}>
+                {({ open }) => (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <h3 className={`capitalize tracking-wide text-slate-700 dark:text-slate-700`}>See Also</h3>
+                      <div className="self-center flex items-center justify-center space-x-2">
+                        <Disclosure.Button
+                          className={`h-5 w-5 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-100 hover:opacity-80 duration-150`}
+                        >
+                          <ChevronUpIcon className={`w-4 h-4 text-slate-800 ${open ? 'transform rotate-180' : ''}`} />
+                        </Disclosure.Button>
+                        <span
+                          className={`rounded-full ${
+                            seeAlsoSubclasses.length !== 0 ? 'bg-blue-400' : 'bg-rose-400'
+                          } h-5 w-5`}
+                        ></span>
+                      </div>
+                    </div>
+                    <Transition
+                      leave="transition duration-75 ease-out"
+                      leaveFrom="transform scale-100 opacity-100"
+                      leaveTo="transform scale-95 opacity-0"
+                    >
+                      <Disclosure.Panel className="text-justify font-light text-gray-600 py-2 dark:text-white">
+                        {seeAlsoSubclasses.length !== 0 ? (
+                          <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                            {seeAlsoSubclasses.map((subclass, index) => (
+                              <button
+                                className="w-full px-1.5 py-0.5 rounded-xl 
+                                  text-center font-medium capitalize
+                                  bg-slate-100 border-2 border-slate-300/60 text-slate-700 hover:bg-slate-100/50"
+                                key={`subclass-${index}`}
+                                type="button"
+                                onClick={() => {
+                                  const doid = subclass.uri.split('DOID_')[1]
+                                  const requests = [axiosInstance.get(`/infectious/bioportal/getClass/${doid}`)]
+
+                                  axios
+                                    .all(requests)
+                                    .then(
+                                      axios.spread((...responses) => {
+                                        let result = responses[0].data.results.bindings[0]
+                                        result.doid = doid
+                                        setActiveView('seeAlso')
+                                        setSeeAlsoActiveItem(result)
+                                        setSeeAlsoMounted(false)
+                                      })
+                                    )
+                                    .catch((errors) => console.error(errors))
+                                }}
+                              >
+                                {subclass.value}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </Disclosure.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Disclosure>
             </div>
           </div>
         ) : (
