@@ -109,11 +109,20 @@ export default function Results() {
           let complications = 'No complications found'
 
           if (results.length !== 0) {
-            if (results[0].abstract) abstract = results[0].abstract.value
-            if (results[0].causes) causes = results[0].causes.value
-            if (results[0].symptoms) symptoms = results[0].symptoms.value
-            if (results[0].treatment) treatment = results[0].treatment.value
-            if (results[0].complications) complications = results[0].complications.value
+            let exact = results.find((entry) => entry.label.value.toLowerCase() === label.toLowerCase())
+            if (exact) {
+              if (exact.abstract) abstract = exact.abstract.value
+              if (exact.causes) causes = exact.causes.value
+              if (exact.symptoms) symptoms = exact.symptoms.value
+              if (exact.treatment) treatment = exact.treatment.value
+              if (exact.complications) complications = exact.complications.value
+            } else {
+              if (results[0].abstract) abstract = results[0].abstract.value
+              if (results[0].causes) causes = results[0].causes.value
+              if (results[0].symptoms) symptoms = results[0].symptoms.value
+              if (results[0].treatment) treatment = results[0].treatment.value
+              if (results[0].complications) complications = results[0].complications.value
+            }
           }
 
           let synonymsParsed = []
