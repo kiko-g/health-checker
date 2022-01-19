@@ -420,6 +420,7 @@ export default function Results() {
                                     .all(requests)
                                     .then(
                                       axios.spread((...responses) => {
+                                        console.log(responses[0].data.results.bindings)
                                         let result = responses[0].data.results.bindings[0]
                                         result.doid = doid
                                         setActiveView('seeAlso')
@@ -433,7 +434,9 @@ export default function Results() {
                               </button>
                             ))}
                           </div>
-                        ) : null}
+                        ) : (
+                          <span>{console.log(seeAlsoSubclasses)}No related diseases found</span>
+                        )}
                       </Disclosure.Panel>
                     </Transition>
                   </>
@@ -559,7 +562,9 @@ export default function Results() {
                               </button>
                             ))}
                           </div>
-                        ) : null}
+                        ) : (
+                          <span>{console.log(seeAlsoSubclasses)}No related diseases found</span>
+                        )}
                       </Disclosure.Panel>
                     </Transition>
                   </>
