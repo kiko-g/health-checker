@@ -9,7 +9,7 @@ export default function Settings({ limitHook, othersHook, orderedHook }) {
 
   return (
     <div className="settings">
-      <div className="flex items-center justify-between flex-wrap -space-x-px">
+      <div className="flex items-center justify-start md:justify-between flex-wrap -space-x-px">
         <button
           type="button"
           disabled={limit <= 3}
@@ -24,7 +24,7 @@ export default function Settings({ limitHook, othersHook, orderedHook }) {
         <span
           type="button"
           className="bg-white border-gray-300 text-gray-500
-                        relative h-10 inline-flex items-center px-4 py-2 border text-sm font-medium"
+                        relative h-10 inline-flex items-center px-2 py-2 border text-sm font-medium"
         >
           {limit}
         </span>
