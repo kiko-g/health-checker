@@ -1,11 +1,11 @@
 FROM node:16
 
-WORKDIR /usr/simulation/frontend
+WORKDIR /usr/simulation/backend
 
 COPY . .
 
 RUN npm install
 
-EXPOSE 5000
+EXPOSE 3000
 
 CMD [ "npm", "start" ]

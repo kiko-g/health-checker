@@ -40,10 +40,7 @@ export default function Settings({ limitHook, othersHook, orderedHook }) {
       </div>
 
       {/* Results bioportal definition toggler */}
-      <div
-        className="flex items-center border border-gray-300 bg-white 
-                    h-10 p-2 space-x-1 rounded"
-      >
+      <div className="flex items-center border border-gray-300 bg-white h-10 p-2 space-x-1 rounded">
         <Switch.Group>
           <Switch.Label className="self-center w-min text-xs" passive>
             Definition
