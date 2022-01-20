@@ -2,6 +2,4 @@
 
 ## Demo
 
-<video width="320" height="240" controls>
-  <source src="/frontend/docs/demo.mp4" type="video/mp4">
-</video>
+https://user-images.githubusercontent.com/40745490/150367733-d4e5b349-cae0-487e-9a82-685a3e376bd0.mp4
