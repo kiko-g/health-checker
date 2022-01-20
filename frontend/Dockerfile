@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /usr/simulation/frontend
+WORKDIR /usr/healthchecker/frontend
 
 COPY . .
 

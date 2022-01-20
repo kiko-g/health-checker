@@ -10,7 +10,7 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      - ./frontend:/usr/simulation/frontend
+      - ./frontend:/usr/healthchecker/frontend
   backend:
     build:
       context: ./backend
@@ -18,4 +18,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./backend:/usr/simulation/backend
+      - ./backend:/usr/healthchecker/backend
+
+volumes:
+  backend: {}
+  frontend: {}
