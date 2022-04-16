@@ -7,7 +7,7 @@ export default function Homepage() {
   return (
     <Layout isHome={true}>
       <Hero classnames="px-16 py-12" />
-      <Search classnames="px-16 py-12" />
+      <Search classnames="px-16 py-12" width="full" />
     </Layout>
   )
 }
