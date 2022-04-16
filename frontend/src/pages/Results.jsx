@@ -56,7 +56,7 @@ export default function Results() {
   })
 
   useEffect(() => {
-    const requests = [axiosInstance.get(`/infectious/bioportal/search/${query}`)]
+    const requests = [axiosInstance.get(`/bioportal/search/${query}`)]
     axios
       .all(requests)
       .then(
@@ -96,9 +96,9 @@ export default function Results() {
     const uri = overviewActiveItem.uri.value
     const doid = uri.split('DOID_')[1]
     const requests = [
-      axiosInstance.get(`/infectious/dbpedia/getAbstract/${label}`),
-      axiosInstance.get(`/infectious/bioportal/getSynonyms/${doid}`),
-      axiosInstance.get(`/infectious/bioportal/getSubClasses/${doid}`),
+      axiosInstance.get(`/dbpedia/getAbstract/${label}`),
+      axiosInstance.get(`/bioportal/getSynonyms/${doid}`),
+      axiosInstance.get(`/bioportal/getSubClasses/${doid}`),
     ]
 
     axios
@@ -161,9 +161,9 @@ export default function Results() {
     const label = seeAlsoActiveItem.label.value
     const doid = seeAlsoActiveItem.doid
     const requests = [
-      axiosInstance.get(`/infectious/dbpedia/getAbstract/${label}`),
-      axiosInstance.get(`/infectious/bioportal/getSynonyms/${doid}`),
-      axiosInstance.get(`/infectious/bioportal/getSubClasses/${doid}`),
+      axiosInstance.get(`/dbpedia/getAbstract/${label}`),
+      axiosInstance.get(`/bioportal/getSynonyms/${doid}`),
+      axiosInstance.get(`/bioportal/getSubClasses/${doid}`),
     ]
 
     axios
@@ -418,7 +418,7 @@ export default function Results() {
                                 type="button"
                                 onClick={() => {
                                   const doid = subclass.uri.split('DOID_')[1]
-                                  const requests = [axiosInstance.get(`/infectious/bioportal/getClass/${doid}`)]
+                                  const requests = [axiosInstance.get(`/bioportal/getClass/${doid}`)]
 
                                   axios
                                     .all(requests)
@@ -546,7 +546,7 @@ export default function Results() {
                                 type="button"
                                 onClick={() => {
                                   const doid = subclass.uri.split('DOID_')[1]
-                                  const requests = [axiosInstance.get(`/infectious/bioportal/getClass/${doid}`)]
+                                  const requests = [axiosInstance.get(`/bioportal/getClass/${doid}`)]
 
                                   axios
                                     .all(requests)

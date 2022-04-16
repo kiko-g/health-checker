@@ -2,12 +2,12 @@ const query = 'heart'
 const doid = '5504'
 
 export const requests = {
-  dbpedia: '/infectious/dbpedia',
-  bioportal: '/infectious/bioportal',
-  bioportalSearch: `/infectious/bioportal/search/${query}`,
-  bioportalClass: `/infectious/bioportal/getClass/${doid}`,
-  bioportalSynonym: `/infectious/bioportal/getSynonyms/${doid}`,
-  bioportalSubclass: `/infectious/bioportal/getSubClasses/${doid}`,
-  dbpediaAbstract: `/infectious/dbpedia/getAbstract/${query}`,
+  dbpedia: '/dbpedia',
+  bioportal: '/bioportal',
+  bioportalSearch: `/bioportal/search/${query}`,
+  bioportalClass: `/bioportal/getClass/${doid}`,
+  bioportalSynonym: `/bioportal/getSynonyms/${doid}`,
+  bioportalSubclass: `/bioportal/getSubClasses/${doid}`,
+  dbpediaAbstract: `/dbpedia/getAbstract/${query}`,
 }
 
